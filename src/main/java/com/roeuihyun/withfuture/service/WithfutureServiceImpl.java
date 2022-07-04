@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.roeuihyun.withfuture.dto.UserDTO;
+import com.roeuihyun.withfuture.exception.RestApiException;
+import com.roeuihyun.withfuture.response.CommonErrorCode;
 import com.roeuihyun.withfuture.store.WithfutureStore;
 
 import lombok.RequiredArgsConstructor;
@@ -25,5 +27,10 @@ public class WithfutureServiceImpl implements WithfutureService{
 		return withfutureStore.getAllUser();
 	}
 	
+	@Override
+	public List<UserDTO> getTestUser() throws RestApiException {
+		throw new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND);
+//		return withfutureStore.getAllUser();
+	}
 
 }

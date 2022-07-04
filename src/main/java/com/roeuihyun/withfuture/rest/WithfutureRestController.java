@@ -44,5 +44,16 @@ public class WithfutureRestController {
 	public ResponseEntity<List<UserDTO>> getAllUser(){
 		return ResponseEntity.ok(withfutureService.getAllUser());
 	}
+	
+	@ApiOperation(value="전체 User 정보 Return Test", notes="전체 User 정보 Return Notes Test")
+	@ApiResponses({
+	        @ApiResponse(code = 200, message = "API 정상 작동"),
+	        @ApiResponse(code = 500, message = "서버 에러")
+	})
+	@GetMapping("/test")
+	@ResponseBody
+	public ResponseEntity<List<UserDTO>> getTestUser() {
+		return ResponseEntity.ok(withfutureService.getTestUser());
+	}
 
 }

@@ -12,7 +12,8 @@ public class WithfutureStoreImpl implements WithfutureStore{
 
 	@Override
 	public UserDTO getUser() {
-		return new UserDTO("111","name");
+//		return new UserDTO("111","name");
+		return null;
 	}
 
 	@Override
