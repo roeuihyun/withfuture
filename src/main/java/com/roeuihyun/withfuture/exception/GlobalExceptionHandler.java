@@ -59,31 +59,31 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .body(makeErrorResponse(errorCode));
     }
 
-    private ErrorResponse makeErrorResponse(StatusCode errorCode) {
+    private ErrorResponse makeErrorResponse(StatusCode statusCode) {
         return ErrorResponse.builder()
-                .code(errorCode.name())
-                .message(errorCode.getMessage())
+                .code(statusCode.name())
+                .message(statusCode.getMessage())
                 .build();
     }
 
-    private ResponseEntity<Object> handleExceptionInternal(StatusCode errorCode, String message) {
-        return ResponseEntity.status(errorCode.getHttpStatus())
-                .body(makeErrorResponse(errorCode, message));
+    private ResponseEntity<Object> handleExceptionInternal(StatusCode statusCode, String message) {
+        return ResponseEntity.status(statusCode.getHttpStatus())
+                .body(makeErrorResponse(statusCode, message));
     }
 
-    private ErrorResponse makeErrorResponse(StatusCode errorCode, String message) {
+    private ErrorResponse makeErrorResponse(StatusCode statusCode, String message) {
         return ErrorResponse.builder()
-                .code(errorCode.name())
+                .code(statusCode.name())
                 .message(message)
                 .build();
     }
 
-    private ResponseEntity<Object> handleExceptionInternal(BindException e, StatusCode errorCode) {
-        return ResponseEntity.status(errorCode.getHttpStatus())
-                .body(makeErrorResponse(e, errorCode));
+    private ResponseEntity<Object> handleExceptionInternal(BindException e, StatusCode statusCode) {
+        return ResponseEntity.status(statusCode.getHttpStatus())
+                .body(makeErrorResponse(e, statusCode));
     }
 
-    private ErrorResponse makeErrorResponse(BindException e, StatusCode errorCode) {
+    private ErrorResponse makeErrorResponse(BindException e, StatusCode statusCode) {
         List<ErrorResponse.ValidationError> validationErrorList = e.getBindingResult()
                 .getFieldErrors()
                 .stream()
@@ -91,8 +91,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .collect(Collectors.toList());
 
         return ErrorResponse.builder()
-                .code(errorCode.name())
-                .message(errorCode.getMessage())
+                .code(statusCode.name())
+                .message(statusCode.getMessage())
                 .errors(validationErrorList)
                 .build();
     }
