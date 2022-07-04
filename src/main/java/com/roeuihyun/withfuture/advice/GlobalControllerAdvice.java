@@ -1,4 +1,4 @@
-package com.roeuihyun.withfuture.exception;
+package com.roeuihyun.withfuture.advice;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.roeuihyun.withfuture.exception.RestApiException;
 import com.roeuihyun.withfuture.response.CommonStatusCode;
 import com.roeuihyun.withfuture.response.StatusCode;
 import com.roeuihyun.withfuture.response.StatusResponse;
@@ -21,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
 @Slf4j
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RestApiException.class)
     public ResponseEntity<Object> handleCustomException(RestApiException e) {
@@ -32,8 +33,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException e) {
         log.warn("handleIllegalArgument", e);
-        StatusCode errorCode = CommonStatusCode.INVALID_PARAMETER;
-        return handleExceptionInternal(errorCode, e.getMessage());
+        StatusCode statusCode = CommonStatusCode.BAD_REQUEST;
+        return handleExceptionInternal(statusCode, e.getMessage());
     }
 
     @Override
@@ -43,20 +44,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             HttpStatus status,
             WebRequest request) {
         log.warn("handleIllegalArgument", e);
-        StatusCode errorCode = CommonStatusCode.INVALID_PARAMETER;
-        return handleExceptionInternal(e, errorCode);
+        StatusCode statusCode = CommonStatusCode.BAD_REQUEST;
+        return handleExceptionInternal(e, statusCode);
     }
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleAllException(Exception ex) {
         log.warn("handleAllException", ex);
-        StatusCode errorCode = CommonStatusCode.INTERNAL_SERVER_ERROR;
-        return handleExceptionInternal(errorCode);
+        StatusCode statusCode = CommonStatusCode.INTERNAL_SERVER_ERROR;
+        return handleExceptionInternal(statusCode);
     }
 
-    private ResponseEntity<Object> handleExceptionInternal(StatusCode errorCode) {
-        return ResponseEntity.status(errorCode.getHttpStatus())
-                .body(makeErrorResponse(errorCode));
+    private ResponseEntity<Object> handleExceptionInternal(StatusCode statusCode) {
+        return ResponseEntity.status(statusCode.getHttpStatus())
+                .body(makeErrorResponse(statusCode));
     }
 
     private StatusResponse makeErrorResponse(StatusCode statusCode) {

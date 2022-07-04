@@ -29,7 +29,7 @@ public class WithfutureServiceImpl implements WithfutureService{
 	
 	@Override
 	public List<UserDTO> getTestUser() throws RestApiException {
-		throw new RestApiException(CommonStatusCode.RESOURCE_NOT_FOUND);
+		throw new RestApiException(CommonStatusCode.NOT_FOUND);
 //		return withfutureStore.getAllUser();
 	}
 
