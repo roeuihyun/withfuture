@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.roeuihyun.withfuture.response.CommonStatusCode;
 import com.roeuihyun.withfuture.response.StatusCode;
-import com.roeuihyun.withfuture.response.ErrorResponse;
+import com.roeuihyun.withfuture.response.StatusResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -59,8 +59,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .body(makeErrorResponse(errorCode));
     }
 
-    private ErrorResponse makeErrorResponse(StatusCode statusCode) {
-        return ErrorResponse.builder()
+    private StatusResponse makeErrorResponse(StatusCode statusCode) {
+        return StatusResponse.builder()
                 .code(statusCode.name())
                 .message(statusCode.getMessage())
                 .build();
@@ -71,8 +71,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .body(makeErrorResponse(statusCode, message));
     }
 
-    private ErrorResponse makeErrorResponse(StatusCode statusCode, String message) {
-        return ErrorResponse.builder()
+    private StatusResponse makeErrorResponse(StatusCode statusCode, String message) {
+        return StatusResponse.builder()
                 .code(statusCode.name())
                 .message(message)
                 .build();
@@ -83,14 +83,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .body(makeErrorResponse(e, statusCode));
     }
 
-    private ErrorResponse makeErrorResponse(BindException e, StatusCode statusCode) {
-        List<ErrorResponse.ValidationError> validationErrorList = e.getBindingResult()
+    private StatusResponse makeErrorResponse(BindException e, StatusCode statusCode) {
+        List<StatusResponse.Validation> validationErrorList = e.getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .map(ErrorResponse.ValidationError::of)
+                .map(StatusResponse.Validation::of)
                 .collect(Collectors.toList());
 
-        return ErrorResponse.builder()
+        return StatusResponse.builder()
                 .code(statusCode.name())
                 .message(statusCode.getMessage())
                 .errors(validationErrorList)
