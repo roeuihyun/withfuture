@@ -1,6 +1,6 @@
 package com.roeuihyun.withfuture.exception;
 
-import com.roeuihyun.withfuture.response.ErrorCode;
+import com.roeuihyun.withfuture.response.StatusCode;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +9,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RestApiException extends RuntimeException {
 
-    private final ErrorCode errorCode;
+    private final StatusCode errorCode;
 
 }

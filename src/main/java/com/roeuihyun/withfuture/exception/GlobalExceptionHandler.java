@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.roeuihyun.withfuture.response.CommonErrorCode;
-import com.roeuihyun.withfuture.response.ErrorCode;
+import com.roeuihyun.withfuture.response.CommonStatusCode;
+import com.roeuihyun.withfuture.response.StatusCode;
 import com.roeuihyun.withfuture.response.ErrorResponse;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,14 +25,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RestApiException.class)
     public ResponseEntity<Object> handleCustomException(RestApiException e) {
-        ErrorCode errorCode = e.getErrorCode();
+        StatusCode errorCode = e.getErrorCode();
         return handleExceptionInternal(errorCode);
     }
     
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException e) {
         log.warn("handleIllegalArgument", e);
-        ErrorCode errorCode = CommonErrorCode.INVALID_PARAMETER;
+        StatusCode errorCode = CommonStatusCode.INVALID_PARAMETER;
         return handleExceptionInternal(errorCode, e.getMessage());
     }
 
@@ -43,47 +43,47 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             HttpStatus status,
             WebRequest request) {
         log.warn("handleIllegalArgument", e);
-        ErrorCode errorCode = CommonErrorCode.INVALID_PARAMETER;
+        StatusCode errorCode = CommonStatusCode.INVALID_PARAMETER;
         return handleExceptionInternal(e, errorCode);
     }
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleAllException(Exception ex) {
         log.warn("handleAllException", ex);
-        ErrorCode errorCode = CommonErrorCode.INTERNAL_SERVER_ERROR;
+        StatusCode errorCode = CommonStatusCode.INTERNAL_SERVER_ERROR;
         return handleExceptionInternal(errorCode);
     }
 
-    private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode) {
+    private ResponseEntity<Object> handleExceptionInternal(StatusCode errorCode) {
         return ResponseEntity.status(errorCode.getHttpStatus())
                 .body(makeErrorResponse(errorCode));
     }
 
-    private ErrorResponse makeErrorResponse(ErrorCode errorCode) {
+    private ErrorResponse makeErrorResponse(StatusCode errorCode) {
         return ErrorResponse.builder()
                 .code(errorCode.name())
                 .message(errorCode.getMessage())
                 .build();
     }
 
-    private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode, String message) {
+    private ResponseEntity<Object> handleExceptionInternal(StatusCode errorCode, String message) {
         return ResponseEntity.status(errorCode.getHttpStatus())
                 .body(makeErrorResponse(errorCode, message));
     }
 
-    private ErrorResponse makeErrorResponse(ErrorCode errorCode, String message) {
+    private ErrorResponse makeErrorResponse(StatusCode errorCode, String message) {
         return ErrorResponse.builder()
                 .code(errorCode.name())
                 .message(message)
                 .build();
     }
 
-    private ResponseEntity<Object> handleExceptionInternal(BindException e, ErrorCode errorCode) {
+    private ResponseEntity<Object> handleExceptionInternal(BindException e, StatusCode errorCode) {
         return ResponseEntity.status(errorCode.getHttpStatus())
                 .body(makeErrorResponse(e, errorCode));
     }
 
-    private ErrorResponse makeErrorResponse(BindException e, ErrorCode errorCode) {
+    private ErrorResponse makeErrorResponse(BindException e, StatusCode errorCode) {
         List<ErrorResponse.ValidationError> validationErrorList = e.getBindingResult()
                 .getFieldErrors()
                 .stream()

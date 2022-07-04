@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum UserErrorCode implements ErrorCode {
+public enum UserStatusCode implements StatusCode {
 
     INACTIVE_USER(HttpStatus.FORBIDDEN, "User is inactive"),
     ;
