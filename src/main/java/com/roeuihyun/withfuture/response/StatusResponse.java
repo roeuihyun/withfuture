@@ -17,6 +17,7 @@ public class StatusResponse {
 
     private final String code;
     private final String message;
+    private final Object result;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private final List<Validation> errors;

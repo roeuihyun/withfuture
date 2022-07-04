@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.roeuihyun.withfuture.dto.UserDTO;
+import com.roeuihyun.withfuture.response.CommonStatusCode;
+import com.roeuihyun.withfuture.response.StatusResponse;
 import com.roeuihyun.withfuture.service.WithfutureService;
 
 import io.swagger.annotations.ApiOperation;
@@ -30,8 +32,16 @@ public class WithfutureRestController {
 	})
 	@GetMapping("/{id}")
 	@ResponseBody
-	public ResponseEntity<UserDTO> getUser(@PathVariable String id){
-		return ResponseEntity.ok(withfutureService.getUser());
+	public ResponseEntity<StatusResponse> getUser(@PathVariable String id){
+//		return ResponseEntity.ok(withfutureService.getUser());
+		
+return ResponseEntity.status(CommonStatusCode.OK.getHttpStatus())
+        .body(StatusResponse.builder()
+        .code(CommonStatusCode.OK.name())
+        .message(CommonStatusCode.OK.getMessage())
+        .result(withfutureService.getUser())
+        .build());
+		
 	}
 	
 	@ApiOperation(value="전체 User 정보 Return", notes="전체 User 정보 Return Notes")
@@ -41,8 +51,14 @@ public class WithfutureRestController {
 	})
 	@GetMapping("/")
 	@ResponseBody
-	public ResponseEntity<List<UserDTO>> getAllUser(){
-		return ResponseEntity.ok(withfutureService.getAllUser());
+	public ResponseEntity<StatusResponse> getAllUser(){
+//		return ResponseEntity.ok(withfutureService.getAllUser());
+		return ResponseEntity.status(CommonStatusCode.OK.getHttpStatus())
+		        .body(StatusResponse.builder()
+		        .code(CommonStatusCode.OK.name())
+		        .message(CommonStatusCode.OK.getMessage())
+		        .result(withfutureService.getAllUser())
+		        .build());
 	}
 	
 	@ApiOperation(value="전체 User 정보 Return Test", notes="전체 User 정보 Return Notes Test")
@@ -52,8 +68,14 @@ public class WithfutureRestController {
 	})
 	@GetMapping("/test")
 	@ResponseBody
-	public ResponseEntity<List<UserDTO>> getTestUser() {
-		return ResponseEntity.ok(withfutureService.getTestUser());
+	public ResponseEntity<StatusResponse> getTestUser() {
+//		return ResponseEntity.ok(withfutureService.getTestUser());
+		return ResponseEntity.status(CommonStatusCode.OK.getHttpStatus())
+		        .body(StatusResponse.builder()
+		        .code(CommonStatusCode.OK.name())
+		        .message(CommonStatusCode.OK.getMessage())
+		        .result(withfutureService.getTestUser())
+		        .build());
 	}
 
 }
