@@ -45,7 +45,11 @@ public class WithfutureAutoSuggestion {
 			}
 			suggestWords.add(input);
 		}
-
+		
+		for( int i = 0 ; i < allWordsList.size(); i ++) {
+			
+		}
+>>>>>>> refs/remotes/origin/master
 
 	}
 	
