@@ -62,34 +62,34 @@ public class WithfutureAutoSuggestion {
 		for(int i = 0 ; i < 5 ; i ++) {
 			StringBuffer suggestWord = new StringBuffer();
 			String input2 = input;
+			int inputLength = input2.toCharArray().length;
 			ArrayList<HashMap<String,Object>> allWordsListCopy = (ArrayList<HashMap<String,Object>>)(allWordsList.clone()); 
 			for(int j = 0 ; j < allWordsList.size() ; j++) {
 				String word = (String)allWordsList.get(j).get("word");
+				inputLength = input2.toCharArray().length;
 				int wordLength = word.toCharArray().length;
-				int inputLength = input2.toCharArray().length;
 				int wordStartIndex = input2.indexOf(word);
 				int wordEndIndex = (input2.indexOf(word) + wordLength);
-				int compareIndex = 0;
 				if( input2.contains(word) ) {
 					System.out.println("i : " + i + ",j : " + j +  ", input2 : " + input2 + ", inputLength : " + inputLength +", word : " + word + ", wordStartIndex : "  + wordStartIndex +  ", wordEndIndex : "  + wordEndIndex );
 					if( wordStartIndex == 0 && wordEndIndex != inputLength) {
-						System.out.println(" wordStartIndex == 0 "  + input2.substring(wordStartIndex,wordEndIndex)+ "_");
+						System.out.println(" 1111111111 wordStartIndex == 0 && wordEndIndex != inputLength "  + input2.substring(wordStartIndex,wordEndIndex)+ "_");
 						suggestWord.append(input2.substring(wordStartIndex,wordEndIndex)+ "_");
-						input2 = input2.substring(wordEndIndex,inputLength);
-					}else if( wordEndIndex == inputLength) {
-						System.out.println(" wordEndIndex == inputLength "  + input2.substring(wordStartIndex,wordEndIndex));
-						suggestWord.append(input2.substring(wordStartIndex,wordEndIndex));
-						input2 = input2.substring(0,wordStartIndex);
-					}else {
-						System.out.println(" else "  + input2.substring(wordStartIndex,wordEndIndex) + "_");
+						input2 = input2.substring(wordStartIndex,wordEndIndex) + "_" + input2.substring(wordEndIndex,inputLength);
+					}else if( wordStartIndex != 0 && wordEndIndex < inputLength) {
+						System.out.println(" 22222222222 wordStartIndex != 0 && wordEndIndex <= inputLength "  + input2.substring(wordStartIndex,wordEndIndex) + "_");
 						suggestWord.append(input2.substring(wordStartIndex,wordEndIndex) + "_");
-						input2 = input2.substring(0,wordStartIndex) + input2.substring(wordEndIndex,inputLength);
+						input2 = input2.substring(0,wordStartIndex) + input2.substring(wordStartIndex,wordEndIndex) + "_" + input2.substring(wordEndIndex,inputLength);
+					}else if( wordStartIndex != 0 && wordEndIndex == inputLength){
+						System.out.println(" 333333333 wordStartIndex != 0 && wordEndIndex == inputLength "  + input2.substring(wordStartIndex,wordEndIndex));
+						suggestWord.append(input2.substring(wordStartIndex,wordEndIndex));
+						input2 = input2.substring(0,wordStartIndex) + "_" + input2.substring(wordStartIndex,wordEndIndex);
 					}
-					inputLength = input2.toCharArray().length;
 					allWordsListCopy.add(allWordsList.get(j));
 					allWordsListCopy.remove(j);
 				}
 			}
+			System.out.println("");
 			allWordsList = (ArrayList<HashMap<String,Object>>)allWordsListCopy.clone();
 //			System.out.println("suggestWord.toString() : " + suggestWord.toString());
 		}
