@@ -2,7 +2,9 @@ package com.roeuihyun.withfuture.suggest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class WithfutureAutoSuggestion {
@@ -32,7 +34,11 @@ public class WithfutureAutoSuggestion {
 		// in 구문 만들기
 		System.out.println("==============================================================================================================");
 		ArrayList<HashMap<String,Object>> allWordsList = was.getAllItemLists();
-		ArrayList<String> suggestWords = new ArrayList<String>();
+		
+		for(int showIndex = 0 ; showIndex < allWordsList.size(); showIndex ++) {
+			System.out.println(" allWordsList.get(showIndex) : " + allWordsList.get(showIndex));
+		}
+		
 //		for(int i = 0 ; i < 5 ; i ++) {
 //			StringBuffer suggestWord = new StringBuffer();
 //			char[] inputCharacter2 = input.toCharArray();
@@ -58,40 +64,108 @@ public class WithfutureAutoSuggestion {
 //			}	
 //			
 //		}
-		
-		for(int i = 0 ; i < 5 ; i ++) {
-			StringBuffer suggestWord = new StringBuffer();
+		TreeSet<String> suggestResult = new TreeSet<String>(); 
+		for(int totSugesstCnt = 0 ; totSugesstCnt < 5 ; totSugesstCnt ++) {
 			String input2 = input;
-			int inputLength = input2.toCharArray().length;
-			ArrayList<HashMap<String,Object>> allWordsListCopy = (ArrayList<HashMap<String,Object>>)(allWordsList.clone()); 
-			for(int j = 0 ; j < allWordsList.size() ; j++) {
-				String word = (String)allWordsList.get(j).get("word");
-				inputLength = input2.toCharArray().length;
+			int inputLength = input.toCharArray().length;
+			int input2Length = input2.toCharArray().length;
+			ArrayList<HashMap<String,Object>> allWordsListCopy = (ArrayList<HashMap<String,Object>>)(allWordsList.clone());
+			ArrayList<Integer> removeIndexList = new ArrayList<Integer>();
+			ArrayList<Boolean> inputReplace = new ArrayList<Boolean>();
+			for(int wordParsingMarkerIndex = 0; wordParsingMarkerIndex < inputLength; wordParsingMarkerIndex++) {
+				inputReplace.add(false);
+			}
+//			ArrayList<Integer> allWordsListRemoveIndex = new ArrayList<Integer>(); 
+			WordLoop :
+			for(int wordIndex = 0 ; wordIndex < allWordsList.size() ; wordIndex++) {
+				String word = (String)allWordsList.get(wordIndex).get("word");
+				input2Length = input2.toCharArray().length;
 				int wordLength = word.toCharArray().length;
+				int originWordStartIndex = input.indexOf(word);
+				int originWordEndIndex = input.indexOf(word) + wordLength;
 				int wordStartIndex = input2.indexOf(word);
-				int wordEndIndex = (input2.indexOf(word) + wordLength);
-				if( input2.contains(word) ) {
-					System.out.println("i : " + i + ",j : " + j +  ", input2 : " + input2 + ", inputLength : " + inputLength +", word : " + word + ", wordStartIndex : "  + wordStartIndex +  ", wordEndIndex : "  + wordEndIndex );
-					if( wordStartIndex == 0 && wordEndIndex != inputLength) {
-						System.out.println(" 1111111111 wordStartIndex == 0 && wordEndIndex != inputLength "  + input2.substring(wordStartIndex,wordEndIndex)+ "_");
-						suggestWord.append(input2.substring(wordStartIndex,wordEndIndex)+ "_");
-						input2 = input2.substring(wordStartIndex,wordEndIndex) + "_" + input2.substring(wordEndIndex,inputLength);
-					}else if( wordStartIndex != 0 && wordEndIndex < inputLength) {
-						System.out.println(" 22222222222 wordStartIndex != 0 && wordEndIndex <= inputLength "  + input2.substring(wordStartIndex,wordEndIndex) + "_");
-						suggestWord.append(input2.substring(wordStartIndex,wordEndIndex) + "_");
-						input2 = input2.substring(0,wordStartIndex) + input2.substring(wordStartIndex,wordEndIndex) + "_" + input2.substring(wordEndIndex,inputLength);
-					}else if( wordStartIndex != 0 && wordEndIndex == inputLength){
-						System.out.println(" 333333333 wordStartIndex != 0 && wordEndIndex == inputLength "  + input2.substring(wordStartIndex,wordEndIndex));
-						suggestWord.append(input2.substring(wordStartIndex,wordEndIndex));
-						input2 = input2.substring(0,wordStartIndex) + "_" + input2.substring(wordStartIndex,wordEndIndex);
+				int wordEndIndex = input2.indexOf(word) + wordLength;
+				System.out.println("totSugesstCnt : " + totSugesstCnt 
+								 + ", wordIndex : " + wordIndex
+								 + ", input : " + input 
+								 + ", inputLength : " + inputLength 
+								 + ", input2 : " + input2 
+								 + ", input2Length : " + input2Length 
+								 + ", word : " + word
+								 + ", originWordStartIndex : " + originWordStartIndex 
+								 + ", originWordEndIndex : " + originWordEndIndex
+								 + ", wordStartIndex : " + wordStartIndex 
+								 + ", wordEndIndex : " + wordEndIndex 
+								 );
+				WordContainIf :
+				if( input.contains(word) ) {
+					
+					if( wordStartIndex == 0 && wordEndIndex != input2Length) {
+						for(int replaceIndex = originWordStartIndex; replaceIndex < originWordEndIndex; replaceIndex ++) {
+							if(inputReplace.get(replaceIndex)) {
+								break WordContainIf;
+							}else {
+								inputReplace.set(replaceIndex,true);
+							}
+						}
+						System.out.println("맨 왼쪽에 단어가 있을 경우 : "  + input2.substring(wordStartIndex,wordEndIndex)+ "_");
+						input2 = word + "_" + input2.substring(wordEndIndex,input2Length);
+					}else if( wordStartIndex != 0 && wordEndIndex < input2Length) {
+						for(int replaceIndex = originWordStartIndex; replaceIndex < originWordEndIndex; replaceIndex ++) {
+							if(inputReplace.get(replaceIndex)) {
+								break WordContainIf;
+							}else {
+								inputReplace.set(replaceIndex,true);
+							}
+						}
+						System.out.println("단어가 가운데에 있을 경우 :  "  + word + "_");
+						input2 = input2.substring(0,wordStartIndex) + word + "_" + input2.substring(wordEndIndex,input2Length);
+					}else if( wordStartIndex != 0 && wordEndIndex == input2Length){
+						for(int replaceIndex = originWordStartIndex; replaceIndex < originWordEndIndex; replaceIndex ++) {
+							if(inputReplace.get(replaceIndex)) {
+								break WordContainIf;
+							}else {
+								inputReplace.set(replaceIndex,true);
+							}
+						}
+						System.out.println("맨 오른쪽에 단어가 있을 경우 : "  + input2.substring(wordStartIndex,wordEndIndex));
+//						input2 = input2.substring(0,wordStartIndex) +  input2.substring(wordStartIndex,wordEndIndex);
 					}
-					allWordsListCopy.add(allWordsList.get(j));
-					allWordsListCopy.remove(j);
+//					allWordsList.add(allWordsList.get(j));
+//					allWordsListRemoveIndex.add(j);
+					
+					allWordsListCopy.add(allWordsList.get(wordIndex));
+//					allWordsListCopy.remove(wordIndex);
+					removeIndexList.add(wordIndex);
 				}
 			}
+			suggestResult.add(input2);
 			System.out.println("");
+			
+//			for(int removeIndex = 0; removeIndex < allWordsListRemoveIndex.size(); removeIndex ++ ) {
+//				allWordsList.remove(allWordsListRemoveIndex.get(removeIndex));  
+//			}
+
+			for(int showIndex = 0 ; showIndex < allWordsListCopy.size(); showIndex ++) {
+				System.out.println(" before allWordsListCopy.get(showIndex) : " + allWordsListCopy.get(showIndex));
+			}
+			
+			for(int removeIndex = 0; removeIndex < removeIndexList.size(); removeIndex ++ ) {
+				System.out.println(" removeIndexList.get(removeIndex) : " + removeIndexList.get(removeIndex));
+				allWordsListCopy.remove((int)removeIndexList.get(removeIndex));  
+			}
+			
+			for(int showIndex = 0 ; showIndex < allWordsListCopy.size(); showIndex ++) {
+				System.out.println(" after allWordsListCopy.get(showIndex) : " + allWordsListCopy.get(showIndex));
+			}
+			
 			allWordsList = (ArrayList<HashMap<String,Object>>)allWordsListCopy.clone();
-//			System.out.println("suggestWord.toString() : " + suggestWord.toString());
+			
+		}
+		
+		Iterator keys = suggestResult.iterator();	// Iterator 사용
+		while(keys.hasNext()) {//값이 있으면 true 없으면 false
+		    System.out.println("suggestResult : " + keys.next());
 		}
 		
 	}
