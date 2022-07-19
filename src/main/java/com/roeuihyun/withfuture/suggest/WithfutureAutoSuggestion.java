@@ -150,9 +150,10 @@ public class WithfutureAutoSuggestion {
 				System.out.println(" before allWordsListCopy.get(showIndex) : " + allWordsListCopy.get(showIndex));
 			}
 			
-			for(int removeIndex = 0; removeIndex < removeIndexList.size(); removeIndex ++ ) {
+			for(int removeIndex = removeIndexList.size()-1; removeIndex >= 0; removeIndex -- ) {
 				System.out.println(" removeIndexList.get(removeIndex) : " + removeIndexList.get(removeIndex));
-				allWordsListCopy.remove((int)removeIndexList.get(removeIndex));  
+				allWordsListCopy.remove((int)removeIndexList.get(removeIndex));
+				System.out.println("remove target allWordsListCopy.get(i): ");
 			}
 			
 			for(int showIndex = 0 ; showIndex < allWordsListCopy.size(); showIndex ++) {
