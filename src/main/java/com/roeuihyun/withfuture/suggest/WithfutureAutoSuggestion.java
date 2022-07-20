@@ -12,7 +12,8 @@ public class WithfutureAutoSuggestion {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		WithfutureAutoSuggestion was = new WithfutureAutoSuggestion();
-		String input = "공통카테고리코드";
+//		String input = "공통카테고리코드";
+		String input = "표준산업화도구코드";
 		char[] inputCharacter = input.toCharArray();
 		ArrayList<String> allWords = new ArrayList<String>(); 
 		for(int totLoop = 0 ; totLoop < inputCharacter.length ; totLoop ++) {
@@ -65,7 +66,7 @@ public class WithfutureAutoSuggestion {
 //			
 //		}
 		TreeSet<String> suggestResult = new TreeSet<String>(); 
-		for(int totSugesstCnt = 0 ; totSugesstCnt < 5 ; totSugesstCnt ++) {
+		for(int totSugesstCnt = 0 ; totSugesstCnt < 20 ; totSugesstCnt ++) {
 			String input2 = input;
 			int inputLength = input.toCharArray().length;
 			int input2Length = input2.toCharArray().length;
@@ -98,7 +99,7 @@ public class WithfutureAutoSuggestion {
 								 + ", wordEndIndex : " + wordEndIndex 
 								 );
 				WordContainIf :
-				if( input.contains(word) ) {
+				if( input2.contains(word) ) {
 					
 					if( wordStartIndex == 0 && wordEndIndex != input2Length) {
 						for(int replaceIndex = originWordStartIndex; replaceIndex < originWordEndIndex; replaceIndex ++) {
@@ -146,9 +147,9 @@ public class WithfutureAutoSuggestion {
 //				allWordsList.remove(allWordsListRemoveIndex.get(removeIndex));  
 //			}
 
-			for(int showIndex = 0 ; showIndex < allWordsListCopy.size(); showIndex ++) {
-				System.out.println(" before allWordsListCopy.get(showIndex) : " + allWordsListCopy.get(showIndex));
-			}
+//			for(int showIndex = 0 ; showIndex < allWordsListCopy.size(); showIndex ++) {
+//				System.out.println(" before allWordsListCopy.get(showIndex) : " + allWordsListCopy.get(showIndex));
+//			}
 			
 			for(int removeIndex = removeIndexList.size()-1; removeIndex >= 0; removeIndex -- ) {
 				System.out.println(" removeIndexList.get(removeIndex) : " + removeIndexList.get(removeIndex));
@@ -156,9 +157,9 @@ public class WithfutureAutoSuggestion {
 				System.out.println("remove target allWordsListCopy.get(i): ");
 			}
 			
-			for(int showIndex = 0 ; showIndex < allWordsListCopy.size(); showIndex ++) {
-				System.out.println(" after allWordsListCopy.get(showIndex) : " + allWordsListCopy.get(showIndex));
-			}
+//			for(int showIndex = 0 ; showIndex < allWordsListCopy.size(); showIndex ++) {
+//				System.out.println(" after allWordsListCopy.get(showIndex) : " + allWordsListCopy.get(showIndex));
+//			}
 			
 			allWordsList = (ArrayList<HashMap<String,Object>>)allWordsListCopy.clone();
 			
@@ -173,21 +174,46 @@ public class WithfutureAutoSuggestion {
 	
 	private ArrayList<HashMap<String,Object>> getAllItemLists(){
 		ArrayList<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
+		//공통카테고리코드
+//		HashMap<String,Object> word1 = new HashMap<String,Object>();
+//		word1.put("word", "공통");
+//		list.add(word1);
+//		HashMap<String,Object> word2 = new HashMap<String,Object>();
+//		word2.put("word", "카테고리");
+//		list.add(word2);
+//		HashMap<String,Object> word3 = new HashMap<String,Object>();
+//		word3.put("word", "코드");
+//		list.add(word3);
+//		HashMap<String,Object> word4 = new HashMap<String,Object>();
+//		word4.put("word", "공통카테고리");
+//		list.add(word4);
+//		HashMap<String,Object> word5 = new HashMap<String,Object>();
+//		word5.put("word", "카테고리코드");
+//		list.add(word5);
+
+		//표준산업화도구코드
 		HashMap<String,Object> word1 = new HashMap<String,Object>();
-		word1.put("word", "공통");
+		word1.put("word", "표준");
 		list.add(word1);
 		HashMap<String,Object> word2 = new HashMap<String,Object>();
-		word2.put("word", "카테고리");
+		word2.put("word", "산업화");
 		list.add(word2);
 		HashMap<String,Object> word3 = new HashMap<String,Object>();
-		word3.put("word", "코드");
+		word3.put("word", "도구");
 		list.add(word3);
 		HashMap<String,Object> word4 = new HashMap<String,Object>();
-		word4.put("word", "공통카테고리");
+		word4.put("word", "코드");
 		list.add(word4);
 		HashMap<String,Object> word5 = new HashMap<String,Object>();
-		word5.put("word", "카테고리코드");
+		word5.put("word", "표준산업화");
 		list.add(word5);
+		HashMap<String,Object> word6 = new HashMap<String,Object>();
+		word6.put("word", "도구코드");
+		list.add(word6);
+		HashMap<String,Object> word7 = new HashMap<String,Object>();
+		word7.put("word", "산업화도구");
+		list.add(word7);		
+		
 		return list;
 	}
 
