@@ -1,11 +1,8 @@
 package com.roeuihyun.withfuture.suggest;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 public class WithfutureAutoSuggestion {
 
@@ -15,7 +12,9 @@ public class WithfutureAutoSuggestion {
 //		String input = "공통카테고리코드";
 		String input = "표준산업화도구코드";
 		char[] inputCharacter = input.toCharArray();
-		ArrayList<String> allWords = new ArrayList<String>(); 
+		ArrayList<String> allWords = new ArrayList<String>();
+		
+		System.out.println("==============================================================================================================");
 		for(int totLoop = 0 ; totLoop < inputCharacter.length ; totLoop ++) {
 			for(int startIndex =  inputCharacter.length - totLoop -1; startIndex >= 0 ; startIndex --) {
 				StringBuffer append = new StringBuffer();
@@ -27,59 +26,27 @@ public class WithfutureAutoSuggestion {
 			}			
 		}
 		System.out.println("==============================================================================================================");
-		List distinctAllWords = allWords.stream().sorted().collect(Collectors.toList());
-		for(int i = 0; i < distinctAllWords.size() ; i ++) {
-			System.out.println(distinctAllWords.get(i));
-		}
 		
+		System.out.println("=====================================in String or OrString구문 만들기=========================================================");
 		// in 구문 만들기
 		System.out.println("==============================================================================================================");
-		ArrayList<HashMap<String,Object>> allWordsList = was.getAllItemLists();
+		ArrayList<String> allWordsList = was.getAllItemLists();
 		
-		for(int showIndex = 0 ; showIndex < allWordsList.size(); showIndex ++) {
-			System.out.println(" allWordsList.get(showIndex) : " + allWordsList.get(showIndex));
-		}
-		
-//		for(int i = 0 ; i < 5 ; i ++) {
-//			StringBuffer suggestWord = new StringBuffer();
-//			char[] inputCharacter2 = input.toCharArray();
-//			for(int startIndex =  inputCharacter2.length -1; startIndex >= 0 ; startIndex --) {
-//				StringBuffer append = new StringBuffer();
-//				for(int endIndex = startIndex; endIndex < (inputCharacter2.length ) ; endIndex ++) {
-//					append.append(inputCharacter2[endIndex]);
-//					System.out.println("startIndex :  " + startIndex + " endIndex : " + endIndex + "append.toString() : " + append.toString());
-//					for(int wordIndex = 0; wordIndex < allWordsList.size() ; wordIndex ++) {
-//						if(allWordsList.get(wordIndex).get("word").equals(append.toString())) {
-//							System.out.println("allWordsList.get(wordIndex).get(\"word\") : " + allWordsList.get(wordIndex).get("word") +  " append.toString() :  " + append.toString());
-////							System.out.println(inputCharacter2.toString().substring(1,startIndex));
-////							System.out.println(inputCharacter2.toString().substring(startIndex,endIndex));
-//							inputCharacter2 = String.valueOf(inputCharacter2).substring(0,startIndex).toCharArray();
-//							append.append("_");
-//							allWordsList.add(allWordsList.get(wordIndex));
-//							allWordsList.remove(wordIndex);
-//							suggestWords.add(append.toString());
-//						}
-////						System.out.println(" allWordsList.get(wordIndex).get(\"word\") : " + allWordsList.get(wordIndex).get("word") +  " append.toString() :  " + append.toString() + " index : " + wordIndex);
-//					}
-//				}
-//			}	
-//			
-//		}
+		System.out.println("==============================================================================================================");
 		TreeSet<String> suggestResult = new TreeSet<String>(); 
 		for(int totSugesstCnt = 0 ; totSugesstCnt < 20 ; totSugesstCnt ++) {
 			String input2 = input;
 			int inputLength = input.toCharArray().length;
 			int input2Length = input2.toCharArray().length;
-			ArrayList<HashMap<String,Object>> allWordsListCopy = (ArrayList<HashMap<String,Object>>)(allWordsList.clone());
+			ArrayList<String> allWordsListCopy = (ArrayList<String>)(allWordsList.clone());
 			ArrayList<Integer> removeIndexList = new ArrayList<Integer>();
 			ArrayList<Boolean> inputReplace = new ArrayList<Boolean>();
 			for(int wordParsingMarkerIndex = 0; wordParsingMarkerIndex < inputLength; wordParsingMarkerIndex++) {
 				inputReplace.add(false);
 			}
-//			ArrayList<Integer> allWordsListRemoveIndex = new ArrayList<Integer>(); 
-			WordLoop :
+			
 			for(int wordIndex = 0 ; wordIndex < allWordsList.size() ; wordIndex++) {
-				String word = (String)allWordsList.get(wordIndex).get("word");
+				String word = allWordsList.get(wordIndex);
 				input2Length = input2.toCharArray().length;
 				int wordLength = word.toCharArray().length;
 				int originWordStartIndex = input.indexOf(word);
@@ -88,13 +55,13 @@ public class WithfutureAutoSuggestion {
 				int wordEndIndex = input2.indexOf(word) + wordLength;
 				System.out.println("totSugesstCnt : " + totSugesstCnt 
 								 + ", wordIndex : " + wordIndex
-								 + ", input : " + input 
-								 + ", inputLength : " + inputLength 
-								 + ", input2 : " + input2 
-								 + ", input2Length : " + input2Length 
 								 + ", word : " + word
+								 + ", input : " + input 
+								 + ", inputLength : " + inputLength
 								 + ", originWordStartIndex : " + originWordStartIndex 
 								 + ", originWordEndIndex : " + originWordEndIndex
+								 + ", input2 : " + input2 
+								 + ", input2Length : " + input2Length 
 								 + ", wordStartIndex : " + wordStartIndex 
 								 + ", wordEndIndex : " + wordEndIndex 
 								 );
@@ -130,40 +97,31 @@ public class WithfutureAutoSuggestion {
 							}
 						}
 						System.out.println("맨 오른쪽에 단어가 있을 경우 : "  + input2.substring(wordStartIndex,wordEndIndex));
-//						input2 = input2.substring(0,wordStartIndex) +  input2.substring(wordStartIndex,wordEndIndex);
 					}
-//					allWordsList.add(allWordsList.get(j));
-//					allWordsListRemoveIndex.add(j);
-					
 					allWordsListCopy.add(allWordsList.get(wordIndex));
-//					allWordsListCopy.remove(wordIndex);
 					removeIndexList.add(wordIndex);
 				}
 			}
-			suggestResult.add(input2);
+			
+			System.out.println("");
+			System.out.println("input : " + input);
+			for(int wordParsingMarkerIndex = 0; wordParsingMarkerIndex < inputLength; wordParsingMarkerIndex++) {
+				System.out.print(inputReplace.get(wordParsingMarkerIndex));
+			}
 			System.out.println("");
 			
-//			for(int removeIndex = 0; removeIndex < allWordsListRemoveIndex.size(); removeIndex ++ ) {
-//				allWordsList.remove(allWordsListRemoveIndex.get(removeIndex));  
-//			}
-
-//			for(int showIndex = 0 ; showIndex < allWordsListCopy.size(); showIndex ++) {
-//				System.out.println(" before allWordsListCopy.get(showIndex) : " + allWordsListCopy.get(showIndex));
-//			}
+			suggestResult.add(input2);
+			System.out.println("input2 : " + input2);
+			System.out.println("");
 			
 			for(int removeIndex = removeIndexList.size()-1; removeIndex >= 0; removeIndex -- ) {
-				System.out.println(" removeIndexList.get(removeIndex) : " + removeIndexList.get(removeIndex));
 				allWordsListCopy.remove((int)removeIndexList.get(removeIndex));
-				System.out.println("remove target allWordsListCopy.get(i): ");
 			}
 			
-//			for(int showIndex = 0 ; showIndex < allWordsListCopy.size(); showIndex ++) {
-//				System.out.println(" after allWordsListCopy.get(showIndex) : " + allWordsListCopy.get(showIndex));
-//			}
-			
-			allWordsList = (ArrayList<HashMap<String,Object>>)allWordsListCopy.clone();
+			allWordsList = (ArrayList<String>)allWordsListCopy.clone();
 			
 		}
+		System.out.println("==============================================================================================================");
 		
 		Iterator keys = suggestResult.iterator();	// Iterator 사용
 		while(keys.hasNext()) {//값이 있으면 true 없으면 false
@@ -172,47 +130,23 @@ public class WithfutureAutoSuggestion {
 		
 	}
 	
-	private ArrayList<HashMap<String,Object>> getAllItemLists(){
-		ArrayList<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
+	private ArrayList<String> getAllItemLists(){
+		ArrayList<String> list = new ArrayList<String>();
 		//공통카테고리코드
-//		HashMap<String,Object> word1 = new HashMap<String,Object>();
-//		word1.put("word", "공통");
-//		list.add(word1);
-//		HashMap<String,Object> word2 = new HashMap<String,Object>();
-//		word2.put("word", "카테고리");
-//		list.add(word2);
-//		HashMap<String,Object> word3 = new HashMap<String,Object>();
-//		word3.put("word", "코드");
-//		list.add(word3);
-//		HashMap<String,Object> word4 = new HashMap<String,Object>();
-//		word4.put("word", "공통카테고리");
-//		list.add(word4);
-//		HashMap<String,Object> word5 = new HashMap<String,Object>();
-//		word5.put("word", "카테고리코드");
-//		list.add(word5);
+//		list.add("공통");
+//		list.add("공통카테고리");
+//		list.add("카테고리");
+//		list.add("카테고리코드");
+//		list.add("코드");
 
 		//표준산업화도구코드
-		HashMap<String,Object> word1 = new HashMap<String,Object>();
-		word1.put("word", "표준");
-		list.add(word1);
-		HashMap<String,Object> word2 = new HashMap<String,Object>();
-		word2.put("word", "산업화");
-		list.add(word2);
-		HashMap<String,Object> word3 = new HashMap<String,Object>();
-		word3.put("word", "도구");
-		list.add(word3);
-		HashMap<String,Object> word4 = new HashMap<String,Object>();
-		word4.put("word", "코드");
-		list.add(word4);
-		HashMap<String,Object> word5 = new HashMap<String,Object>();
-		word5.put("word", "표준산업화");
-		list.add(word5);
-		HashMap<String,Object> word6 = new HashMap<String,Object>();
-		word6.put("word", "도구코드");
-		list.add(word6);
-		HashMap<String,Object> word7 = new HashMap<String,Object>();
-		word7.put("word", "산업화도구");
-		list.add(word7);		
+		list.add("도구코드");
+		list.add("도구");
+		list.add("산업화");
+		list.add("산업화도구");		
+		list.add("코드");
+		list.add("표준");
+		list.add("표준산업화");
 		
 		return list;
 	}
