@@ -67,39 +67,25 @@ public class WithfutureAutoSuggestion {
 //								 );
 				WordContainIf :
 				if( input2.contains(word) ) {
-					
+					for(int replaceIndex = originWordStartIndex; replaceIndex < originWordEndIndex; replaceIndex ++) {
+						if(inputReplace.get(replaceIndex)) {
+							break WordContainIf;
+						}
+					}
+					for(int replaceIndex = originWordStartIndex; replaceIndex < originWordEndIndex; replaceIndex ++) {
+						inputReplace.set(replaceIndex,true);
+					}
 					if( wordStartIndex == 0 && wordEndIndex != input2Length) {
-						for(int replaceIndex = originWordStartIndex; replaceIndex < originWordEndIndex; replaceIndex ++) {
-							if(inputReplace.get(replaceIndex)) {
-								break WordContainIf;
-							}
-						}
-						for(int replaceIndex = originWordStartIndex; replaceIndex < originWordEndIndex; replaceIndex ++) {
-							inputReplace.set(replaceIndex,true);
-						}
 //						System.out.println("맨 왼쪽에 단어가 있을 경우 : "  + input2.substring(wordStartIndex,wordEndIndex)+ "_");
 						input2 = word + "_" + input2.substring(wordEndIndex,input2Length);
 					}else if( wordStartIndex != 0 && wordEndIndex < input2Length) {
-						for(int replaceIndex = originWordStartIndex; replaceIndex < originWordEndIndex; replaceIndex ++) {
-							if(inputReplace.get(replaceIndex)) {
-								break WordContainIf;
-							}
-						}
-						for(int replaceIndex = originWordStartIndex; replaceIndex < originWordEndIndex; replaceIndex ++) {
-							inputReplace.set(replaceIndex,true);
-						}
 //						System.out.println("단어가 가운데에 있을 경우 :  "  + word + "_");
 						input2 = input2.substring(0,wordStartIndex) + word + "_" + input2.substring(wordEndIndex,input2Length);
 					}else if( wordStartIndex != 0 && wordEndIndex == input2Length){
-						for(int replaceIndex = originWordStartIndex; replaceIndex < originWordEndIndex; replaceIndex ++) {
-							if(inputReplace.get(replaceIndex)) {
-								break WordContainIf;
-							}
-						}
-						for(int replaceIndex = originWordStartIndex; replaceIndex < originWordEndIndex; replaceIndex ++) {
-							inputReplace.set(replaceIndex,true);
-						}
 //						System.out.println("맨 오른쪽에 단어가 있을 경우 : "  + input2.substring(wordStartIndex,wordEndIndex));
+					}else {
+//						System.out.println("wordStartIndex == 0 && wordEndIndex == input2Length);
+//						System.out.println("단어가 용어인 경우 : "  + input2.substring(wordStartIndex,wordEndIndex));						
 					}
 				}
 			}
@@ -121,8 +107,8 @@ public class WithfutureAutoSuggestion {
 		System.out.println("================================================Word Replace 처리 End==============================================================");
 		
 		System.out.println("================================================추천 용어 Start==============================================================");
-		Iterator<String> keys = suggestResult.iterator();	// Iterator 사용
-		while(keys.hasNext()) {//값이 있으면 true 없으면 false
+		Iterator<String> keys = suggestResult.iterator(); // Iterator 사용
+		while(keys.hasNext()) { //값이 있으면 true 없으면 false
 		    System.out.println("suggestResult : " + keys.next());
 		}
 		System.out.println("================================================추천 용어 End==============================================================");
