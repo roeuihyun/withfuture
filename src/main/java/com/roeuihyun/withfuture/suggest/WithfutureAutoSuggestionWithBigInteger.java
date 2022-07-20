@@ -1,5 +1,6 @@
 package com.roeuihyun.withfuture.suggest;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -7,22 +8,22 @@ import java.util.TreeSet;
 
 import com.google.common.math.BigIntegerMath;
 
-public class WithfutureAutoSuggestion {
+public class WithfutureAutoSuggestionWithBigInteger {
 
 	public static void main(String[] args) {
-		WithfutureAutoSuggestion was = new WithfutureAutoSuggestion();
+		WithfutureAutoSuggestionWithBigInteger was = new WithfutureAutoSuggestionWithBigInteger();
 //		String input = "공통카테고리코드";
 		String originUserInput = "표준산업화도구코드";
 		char[] originUserInputCharacter = originUserInput.toCharArray();
 		ArrayList<String> allWords = new ArrayList<String>();
 		
 		System.out.println("================================================Word Slice 처리 Start==============================================================");
-		for(int totLoop = 0 ; totLoop < originUserInputCharacter.length ; totLoop ++) {
-			for(int startIndex =  originUserInputCharacter.length - totLoop -1; startIndex >= 0 ; startIndex --) {
+		for(BigInteger totLoop = BigInteger.ZERO ; totLoop.compareTo(BigInteger.valueOf( originUserInputCharacter.length) ) < 0 ; totLoop.add(BigInteger.ONE)) {
+			for(BigInteger startIndex =  BigInteger.valueOf( originUserInputCharacter.length).subtract(totLoop).subtract(BigInteger.ONE); startIndex.compareTo(BigInteger.ZERO) >= 0 ; startIndex.subtract(BigInteger.ONE)) {
 				StringBuffer append = new StringBuffer();
-				for(int endIndex = startIndex; endIndex < (originUserInputCharacter.length - totLoop) ; endIndex ++) {
+				for(BigInteger endIndex = startIndex; endIndex.compareTo(BigInteger.valueOf( originUserInputCharacter.length).subtract(totLoop)) < 0 ; endIndex.add(BigInteger.ONE)) {
 					System.out.println("totLoop : " + totLoop + " , startIndex : " + startIndex + " , endIndex : " + endIndex + " , originUserInputCharacter.length : " + originUserInputCharacter.length);
-					append.append(originUserInputCharacter[endIndex]);
+					append.append(originUserInputCharacter[endIndex.intValue()]);
 				}
 				System.out.println(append.toString());
 				allWords.add(append.toString());
