@@ -18,11 +18,12 @@ public class WithfutureAutoSuggestionWithBigInteger {
 		ArrayList<String> allWords = new ArrayList<String>();
 		
 		System.out.println("================================================Word Slice 처리 Start==============================================================");
-		for(BigInteger totLoop = BigInteger.ZERO ; totLoop.compareTo(BigInteger.valueOf( originUserInputCharacter.length) ) < 0 ; totLoop.add(BigInteger.ONE)) {
-			for(BigInteger startIndex =  BigInteger.valueOf( originUserInputCharacter.length).subtract(totLoop).subtract(BigInteger.ONE); startIndex.compareTo(BigInteger.ZERO) >= 0 ; startIndex.subtract(BigInteger.ONE)) {
+		for(BigInteger totLoop = BigInteger.ZERO ; totLoop.compareTo(BigInteger.valueOf( originUserInputCharacter.length) ) < 0 ; totLoop = totLoop.add(BigInteger.ONE)) {
+			for(BigInteger startIndex =  BigInteger.valueOf( originUserInputCharacter.length).subtract(totLoop).subtract(BigInteger.ONE); startIndex.compareTo(BigInteger.ZERO) >= 0 ; startIndex = startIndex.subtract(BigInteger.ONE)) {
 				StringBuffer append = new StringBuffer();
-				for(BigInteger endIndex = startIndex; endIndex.compareTo(BigInteger.valueOf( originUserInputCharacter.length).subtract(totLoop)) < 0 ; endIndex.add(BigInteger.ONE)) {
-					System.out.println("totLoop : " + totLoop + " , startIndex : " + startIndex + " , endIndex : " + endIndex + " , originUserInputCharacter.length : " + originUserInputCharacter.length);
+				for(BigInteger endIndex = new BigInteger(startIndex.toString()); endIndex.compareTo(BigInteger.valueOf( originUserInputCharacter.length).subtract(totLoop)) < 0 ; endIndex = endIndex.add(BigInteger.ONE)) {
+//					System.out.println(endIndex.compareTo(BigInteger.valueOf( originUserInputCharacter.length).subtract(totLoop)));
+//					System.out.println("totLoop : " + totLoop + " , startIndex : " + startIndex + " , endIndex : " + endIndex + " , originUserInputCharacter.length : " + originUserInputCharacter.length);
 					append.append(originUserInputCharacter[endIndex.intValue()]);
 				}
 				System.out.println(append.toString());
@@ -39,7 +40,7 @@ public class WithfutureAutoSuggestionWithBigInteger {
 		System.out.println("================================================Word Replace 처리 Start==============================================================");
 		System.out.println("Looping Count : " + BigIntegerMath.factorial(allWordsList.size()).intValue());
 		TreeSet<String> suggestResult = new TreeSet<String>(); 
-		for(int totSugesstCnt = 0 ; totSugesstCnt < BigIntegerMath.factorial(allWordsList.size()).intValue() ; totSugesstCnt ++) {
+		for(BigInteger totSugesstCnt = BigInteger.ZERO ; totSugesstCnt.compareTo(BigIntegerMath.factorial(allWordsList.size())) < 0 ; totSugesstCnt = totSugesstCnt.add(BigInteger.ONE)) {
 			String replaceUserInput = originUserInput;
 			originUserInput = originUserInput.replace(" ", ""); 
 			replaceUserInput = replaceUserInput.replace(" ", "");

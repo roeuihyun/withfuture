@@ -21,7 +21,7 @@ public class WithfutureAutoSuggestion {
 			for(int startIndex =  originUserInputCharacter.length - totLoop -1; startIndex >= 0 ; startIndex --) {
 				StringBuffer append = new StringBuffer();
 				for(int endIndex = startIndex; endIndex < (originUserInputCharacter.length - totLoop) ; endIndex ++) {
-					System.out.println("totLoop : " + totLoop + " , startIndex : " + startIndex + " , endIndex : " + endIndex + " , originUserInputCharacter.length : " + originUserInputCharacter.length);
+//					System.out.println("totLoop : " + totLoop + " , startIndex : " + startIndex + " , endIndex : " + endIndex + " , originUserInputCharacter.length : " + originUserInputCharacter.length);
 					append.append(originUserInputCharacter[endIndex]);
 				}
 				System.out.println(append.toString());
