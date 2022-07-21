@@ -3,8 +3,10 @@ package com.roeuihyun.withfuture.suggest;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.TreeSet;
+import java.util.stream.IntStream;
 
 import com.google.common.math.BigIntegerMath;
 
@@ -13,7 +15,15 @@ public class WithfutureAutoSuggestionWithBigInteger {
 	public static void main(String[] args) {
 		WithfutureAutoSuggestionWithBigInteger was = new WithfutureAutoSuggestionWithBigInteger();
 //		String input = "공통카테고리코드";
-		String originUserInput = "표준산업화도구코드";
+//		String originUserInput = "표준산업화도구코드";
+//		String originUserInput = "메시지구분코드"; 
+//		String originUserInput = "dfd메시지ad  sf구분dd코드ddd   ";
+		String originUserInput = "산업화드";
+//		String originUserInput = "표준asd산업화s도구내코드";
+		System.out.println("originUserInput : " + originUserInput);
+		// 2. 단어에 없는 문자 제외 처리
+//		originUserInput = revisionTerm(originUserInput);
+		
 		char[] originUserInputCharacter = originUserInput.toCharArray();
 		ArrayList<String> allWords = new ArrayList<String>();
 		
@@ -37,13 +47,21 @@ public class WithfutureAutoSuggestionWithBigInteger {
 		// in 구문 만들기
 		ArrayList<String> allWordsList = was.getAllItemLists();
 		
+		System.out.println("=====================================단어에 없는 문자 제외 처리 Start=========================================================");
+		System.out.println("originUserInput : " + originUserInput);
+		HashMap<String,Object> revisionTermParam = new HashMap<String,Object>();
+		revisionTermParam.put("originUserInput", originUserInput);		
+		revisionTermParam.put("allWordsList", allWordsList);
+		originUserInput = was.revisionTerm(revisionTermParam);
+		System.out.println("=====================================단어에 없는 문자 제외 처리 End=========================================================");		
+		
 		System.out.println("================================================Word Replace 처리 Start==============================================================");
-		System.out.println("Looping Count : " + BigIntegerMath.factorial(allWordsList.size()).intValue());
+		System.out.println("Looping factorial Count : " + BigIntegerMath.factorial(allWordsList.size()).intValue());
+		System.out.println("Looping Count : " + BigInteger.valueOf(allWordsList.size() * 100));
 		TreeSet<String> suggestResult = new TreeSet<String>(); 
-		for(BigInteger totSugesstCnt = BigInteger.ZERO ; totSugesstCnt.compareTo(BigIntegerMath.factorial(allWordsList.size())) < 0 ; totSugesstCnt = totSugesstCnt.add(BigInteger.ONE)) {
+//		for(BigInteger totSugesstCnt = BigInteger.ZERO ; totSugesstCnt.compareTo(BigIntegerMath.factorial(allWordsList.size())) < 0 ; totSugesstCnt = totSugesstCnt.add(BigInteger.ONE)) {
+		for(BigInteger totSugesstCnt = BigInteger.ZERO ; totSugesstCnt.compareTo(BigInteger.valueOf(allWordsList.size() * 100)) < 0 ; totSugesstCnt = totSugesstCnt.add(BigInteger.ONE)) {
 			String replaceUserInput = originUserInput;
-			originUserInput = originUserInput.replace(" ", ""); 
-			replaceUserInput = replaceUserInput.replace(" ", "");
 			int originUserInputLength = originUserInput.toCharArray().length;
 			int replaceUserInputLength = replaceUserInput.toCharArray().length;
 			ArrayList<Boolean> inputReplace = new ArrayList<Boolean>();
@@ -97,27 +115,32 @@ public class WithfutureAutoSuggestionWithBigInteger {
 			}
 			
 			Collections.shuffle(allWordsList);
-			
-//			System.out.println("");
-//			System.out.println("input : " + input);
-//			for(int wordParsingMarkerIndex = 0; wordParsingMarkerIndex < inputLength; wordParsingMarkerIndex++) {
-//				System.out.print(inputReplace.get(wordParsingMarkerIndex));
-//			}
-//			System.out.println("");
-//			
 			suggestResult.add(replaceUserInput);
-//			System.out.println("replaceUserInput : " + replaceUserInput);
-//			System.out.println("");
 			
 		}
 		System.out.println("================================================Word Replace 처리 End==============================================================");
 		
 		System.out.println("================================================추천 용어 Start==============================================================");
-		Iterator<String> keys = suggestResult.iterator(); // Iterator 사용
-		while(keys.hasNext()) { //값이 있으면 true 없으면 false
-		    System.out.println("suggestResult : " + keys.next());
-		}
+//		Iterator<String> keys = suggestResult.iterator(); // Iterator 사용
+//		while(keys.hasNext()) { //값이 있으면 true 없으면 false
+//		    System.out.println("suggestResult : " + keys.next());
+//		}
+//		suggestResult.stream().forEach(null);
+//		suggestResult.forEach(word -> System.out.println("suggestResult : "+word));
+		suggestResult.stream().sorted(Comparator.reverseOrder()).forEach(word -> System.out.println("suggestResult : "+ word ));
+
 		System.out.println("================================================추천 용어 End==============================================================");
+		
+		System.out.println("================================================추천 용어 우선순위 높은 5개 추출 Start==============================================================");
+		System.out.println(suggestResult);
+		ArrayList<String> suggestResultList = new ArrayList<String>();
+		IntStream.range(0, 5).forEach(idx -> {
+			if(!suggestResult.isEmpty()) {
+				suggestResultList.add(idx,suggestResult.pollLast());
+			}
+        });
+		System.out.println(suggestResultList);
+		System.out.println("================================================추천 용어 우선순위 높은 5개 추출 End==============================================================");
 		
 	}
 	
@@ -138,8 +161,52 @@ public class WithfutureAutoSuggestionWithBigInteger {
 		list.add("코드");
 		list.add("표준");
 		list.add("도구");
+		list.add("코");
+		list.add("드");
+		
+		//메시지구분코드
+//		list.add("메시지");
+//		list.add("구분코드");
+//		list.add("구분");
+//		list.add("코드");
+//		list.add("메시");
+//		list.add("지");
+//		list.add("지구");
+//		list.add("구");
+//		list.add("분");
 		
 		return list;
+	}
+	
+	// 단어에 없는 문자 제외 처리
+	private String revisionTerm(HashMap<String,Object> revisionTermParam) {
+		String reqTerm = (String)revisionTermParam.get("originUserInput");
+		ArrayList<String> allWordsList = (ArrayList<String>)revisionTermParam.get("allWordsList");
+		String revisionTerm = reqTerm;
+		String searchTerm = reqTerm;
+		char[] searchTermArr = null;
+		String splitTerm = null;
+		boolean isNotFindWord = false;
+		while(searchTerm.length() > 0) {
+			searchTermArr = searchTerm.toCharArray();
+			for(int i = searchTermArr.length; i > 0; i--) {
+				splitTerm = searchTerm.substring(0, i);
+				if(allWordsList.contains(splitTerm)) {
+					searchTerm = searchTerm.substring(i); 
+					isNotFindWord = false;
+					break;
+				} else {
+					isNotFindWord = true;	
+				}
+			}
+			searchTerm = searchTerm.replaceAll(splitTerm, "");
+			if(isNotFindWord) {
+				revisionTerm = revisionTerm.replaceAll(splitTerm, "");	
+				searchTerm = revisionTerm;
+			}
+		}
+		System.out.println("revisionTerm : " + revisionTerm );
+		return revisionTerm;
 	}
 
 }
