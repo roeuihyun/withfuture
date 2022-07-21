@@ -14,15 +14,12 @@ public class WithfutureAutoSuggestionWithBigInteger {
 
 	public static void main(String[] args) {
 		WithfutureAutoSuggestionWithBigInteger was = new WithfutureAutoSuggestionWithBigInteger();
-//		String input = "공통카테고리코드";
 //		String originUserInput = "표준산업화도구코드";
 //		String originUserInput = "메시지구분코드"; 
 //		String originUserInput = "dfd메시지ad  sf구분dd코드ddd   ";
-		String originUserInput = "산업화드";
-//		String originUserInput = "표준asd산업화s도구내코드";
+//		String originUserInput = "산업화드";
+		String originUserInput = "표준asd산업화s도구내코드";
 		System.out.println("originUserInput : " + originUserInput);
-		// 2. 단어에 없는 문자 제외 처리
-//		originUserInput = revisionTerm(originUserInput);
 		
 		char[] originUserInputCharacter = originUserInput.toCharArray();
 		ArrayList<String> allWords = new ArrayList<String>();
@@ -32,8 +29,6 @@ public class WithfutureAutoSuggestionWithBigInteger {
 			for(BigInteger startIndex =  BigInteger.valueOf( originUserInputCharacter.length).subtract(totLoop).subtract(BigInteger.ONE); startIndex.compareTo(BigInteger.ZERO) >= 0 ; startIndex = startIndex.subtract(BigInteger.ONE)) {
 				StringBuffer append = new StringBuffer();
 				for(BigInteger endIndex = new BigInteger(startIndex.toString()); endIndex.compareTo(BigInteger.valueOf( originUserInputCharacter.length).subtract(totLoop)) < 0 ; endIndex = endIndex.add(BigInteger.ONE)) {
-//					System.out.println(endIndex.compareTo(BigInteger.valueOf( originUserInputCharacter.length).subtract(totLoop)));
-//					System.out.println("totLoop : " + totLoop + " , startIndex : " + startIndex + " , endIndex : " + endIndex + " , originUserInputCharacter.length : " + originUserInputCharacter.length);
 					append.append(originUserInputCharacter[endIndex.intValue()]);
 				}
 				System.out.println(append.toString());
@@ -121,12 +116,7 @@ public class WithfutureAutoSuggestionWithBigInteger {
 		System.out.println("================================================Word Replace 처리 End==============================================================");
 		
 		System.out.println("================================================추천 용어 Start==============================================================");
-//		Iterator<String> keys = suggestResult.iterator(); // Iterator 사용
-//		while(keys.hasNext()) { //값이 있으면 true 없으면 false
-//		    System.out.println("suggestResult : " + keys.next());
-//		}
-//		suggestResult.stream().forEach(null);
-//		suggestResult.forEach(word -> System.out.println("suggestResult : "+word));
+		// 내림차순 정렬 
 		suggestResult.stream().sorted(Comparator.reverseOrder()).forEach(word -> System.out.println("suggestResult : "+ word ));
 
 		System.out.println("================================================추천 용어 End==============================================================");
@@ -134,8 +124,10 @@ public class WithfutureAutoSuggestionWithBigInteger {
 		System.out.println("================================================추천 용어 우선순위 높은 5개 추출 Start==============================================================");
 		System.out.println(suggestResult);
 		ArrayList<String> suggestResultList = new ArrayList<String>();
+		// 추천 용어는 
 		IntStream.range(0, 5).forEach(idx -> {
 			if(!suggestResult.isEmpty()) {
+				// 오름차순 정렬 되어있는 상태이므로 맨 뒤에서부터 Polling
 				suggestResultList.add(idx,suggestResult.pollLast());
 			}
         });
@@ -147,11 +139,11 @@ public class WithfutureAutoSuggestionWithBigInteger {
 	private ArrayList<String> getAllItemLists(){
 		ArrayList<String> list = new ArrayList<String>();
 		//공통카테고리코드
-//		list.add("공통");
-//		list.add("공통카테고리");
-//		list.add("카테고리");
-//		list.add("카테고리코드");
-//		list.add("코드");
+		list.add("공통");
+		list.add("공통카테고리");
+		list.add("카테고리");
+		list.add("카테고리코드");
+		list.add("코드");
 
 		//표준산업화도구코드
 		list.add("산업화도구");
@@ -165,15 +157,15 @@ public class WithfutureAutoSuggestionWithBigInteger {
 		list.add("드");
 		
 		//메시지구분코드
-//		list.add("메시지");
-//		list.add("구분코드");
-//		list.add("구분");
-//		list.add("코드");
-//		list.add("메시");
-//		list.add("지");
-//		list.add("지구");
-//		list.add("구");
-//		list.add("분");
+		list.add("메시지");
+		list.add("구분코드");
+		list.add("구분");
+		list.add("코드");
+		list.add("메시");
+		list.add("지");
+		list.add("지구");
+		list.add("구");
+		list.add("분");
 		
 		return list;
 	}
@@ -189,10 +181,10 @@ public class WithfutureAutoSuggestionWithBigInteger {
 		boolean isNotFindWord = false;
 		while(searchTerm.length() > 0) {
 			searchTermArr = searchTerm.toCharArray();
-			for(int i = searchTermArr.length; i > 0; i--) {
-				splitTerm = searchTerm.substring(0, i);
+			for(int userInputCharIndex = searchTermArr.length; userInputCharIndex > 0; userInputCharIndex--) {
+				splitTerm = searchTerm.substring(0, userInputCharIndex);
 				if(allWordsList.contains(splitTerm)) {
-					searchTerm = searchTerm.substring(i); 
+					searchTerm = searchTerm.substring(userInputCharIndex); 
 					isNotFindWord = false;
 					break;
 				} else {
