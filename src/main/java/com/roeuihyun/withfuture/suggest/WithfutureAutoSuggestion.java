@@ -14,7 +14,7 @@ import com.google.common.math.BigIntegerMath;
 public class WithfutureAutoSuggestion {
 
 	public static void main(String[] args) {
-		WithfutureAutoSuggestionWithBigInteger was = new WithfutureAutoSuggestionWithBigInteger();
+		WithfutureAutoSuggestion was = new WithfutureAutoSuggestion();
 //		String input = "공통카테고리코드";
 //		String originUserInput = "표준산업화도구코드";
 //		String originUserInput = "메시지구분코드"; 
