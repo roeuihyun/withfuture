@@ -14,15 +14,13 @@
  *===============================================================================*/
 package com.roeuihyun.withfuture.store;
 
-import java.util.UUID;
-
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.roeuihyun.withfuture.dto.UserDTO;
 
 @Repository
-public interface UserStore extends CrudRepository<UserDTO, UUID>{
+public interface UserStore extends CrudRepository<UserDTO, Long>{
 	
 }
 

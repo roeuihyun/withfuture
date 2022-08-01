@@ -48,6 +48,7 @@ public class HtmlCharacterEscapes extends CharacterEscapes{
         asciiEscapes['\"'] = CharacterEscapes.ESCAPE_CUSTOM;
         asciiEscapes['('] = CharacterEscapes.ESCAPE_CUSTOM;
         asciiEscapes[')'] = CharacterEscapes.ESCAPE_CUSTOM;
+        asciiEscapes['&'] = CharacterEscapes.ESCAPE_CUSTOM;
         asciiEscapes['#'] = CharacterEscapes.ESCAPE_CUSTOM;
         asciiEscapes['\''] = CharacterEscapes.ESCAPE_CUSTOM;
         

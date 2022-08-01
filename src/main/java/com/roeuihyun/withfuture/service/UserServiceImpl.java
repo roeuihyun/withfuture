@@ -17,7 +17,6 @@ package com.roeuihyun.withfuture.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -36,11 +35,11 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public Optional<UserDTO> insertUser(HashMap<String, Object> param) {
-		if( null != userStore.findById((UUID)param.get("id")) ) {
+		if( null != userStore.findById((Long)param.get("id")) ) {
 			throw new BizException(BizStatusCode.USER_EXIST);
 		}
 		userStore.save((UserDTO)param.get("userDTO"));
-		return userStore.findById((UUID)param.get("id"));
+		return userStore.findById((Long)param.get("id"));
 	}
 
 	@Override
@@ -50,12 +49,12 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public Optional<UserDTO> getUserById(HashMap<String, Object> param) {
-		return userStore.findById((UUID)param.get("id"));
+		return userStore.findById((Long)param.get("id"));
 	}
 
 	@Override
 	public Optional<UserDTO> putUser(HashMap<String, Object> param) {
-		Optional<UserDTO> putReturn = userStore.findById((UUID)param.get("id"));
+		Optional<UserDTO> putReturn = userStore.findById((Long)param.get("id"));
 		if( null == putReturn ) {
 			throw new BizException(BizStatusCode.USER_NOT_FOUND);		
 		}
@@ -64,11 +63,11 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public Optional<UserDTO> deleteUserById(HashMap<String, Object> param) {
-		Optional<UserDTO> deleteReturn = userStore.findById((UUID)param.get("id"));
+		Optional<UserDTO> deleteReturn = userStore.findById((Long)param.get("id"));
 		if( null == deleteReturn ) {
 			throw new BizException(BizStatusCode.USER_NOT_FOUND);		
 		}
-		userStore.deleteById((UUID)param.get("user"));
+		userStore.deleteById((Long)param.get("user"));
 		return deleteReturn;
 	}
 
