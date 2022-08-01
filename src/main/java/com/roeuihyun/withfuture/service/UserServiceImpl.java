@@ -35,11 +35,12 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public Optional<UserDTO> insertUser(HashMap<String, Object> param) {
-		if( null != userStore.findById((Long)param.get("id")) ) {
+		Optional<UserDTO> currentUser = userStore.findById((Long)param.get("user_id"));
+		if( currentUser.isPresent() ) {
 			throw new BizException(BizStatusCode.USER_EXIST);
 		}
 		userStore.save((UserDTO)param.get("userDTO"));
-		return userStore.findById((Long)param.get("id"));
+		return userStore.findById((Long)param.get("user_id"));
 	}
 
 	@Override
@@ -49,26 +50,27 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public Optional<UserDTO> getUserById(HashMap<String, Object> param) {
-		return userStore.findById((Long)param.get("id"));
+		return userStore.findById((Long)param.get("user_id"));
 	}
 
 	@Override
 	public Optional<UserDTO> putUser(HashMap<String, Object> param) {
-		Optional<UserDTO> putReturn = userStore.findById((Long)param.get("id"));
-		if( null == putReturn ) {
+		Optional<UserDTO> currentUser = userStore.findById((Long)param.get("user_id"));
+		if( !currentUser.isPresent() ) {
 			throw new BizException(BizStatusCode.USER_NOT_FOUND);		
 		}
-		return putReturn;
+		userStore.save((UserDTO)param.get("userDTO"));
+		return userStore.findById((Long)param.get("user_id"));
 	}
 
 	@Override
 	public Optional<UserDTO> deleteUserById(HashMap<String, Object> param) {
-		Optional<UserDTO> deleteReturn = userStore.findById((Long)param.get("id"));
-		if( null == deleteReturn ) {
+		Optional<UserDTO> currentUser = userStore.findById((Long)param.get("user_id"));
+		if( !currentUser.isPresent() ) {
 			throw new BizException(BizStatusCode.USER_NOT_FOUND);		
 		}
-		userStore.deleteById((Long)param.get("user"));
-		return deleteReturn;
+		userStore.deleteById((Long)param.get("userDTO"));
+		return currentUser;
 	}
 
 

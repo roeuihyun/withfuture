@@ -41,7 +41,8 @@ import lombok.Setter;
 public class UserDTO {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(nullable = false)
+//	@GeneratedValue(strategy = GenerationType.AUTO)
 	@ApiModelProperty(value = "아이디", dataType = "long", required = true)  
 	private long user_id;
 	

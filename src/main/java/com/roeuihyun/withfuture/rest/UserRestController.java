@@ -51,6 +51,11 @@ public class UserRestController {
 	@ResponseBody
 	public ResponseEntity<SuccessStatusResponse> insertUser(@RequestBody UserDTO userDTO) {
 		HashMap<String,Object> param = new HashMap<String,Object>();
+		System.out.println(userDTO);
+		System.out.println(userDTO.getUser_id());
+		System.out.println(userDTO.getUser_name());
+		System.out.println(userDTO.getUser_addr());
+		System.out.println(userDTO.getUser_email());
 		param.put("user_id", userDTO.getUser_id());
 		param.put("userDTO", userDTO);
 		return ResponseEntity.status(CommonStatusCode.OK.getHttpStatus())
@@ -83,7 +88,7 @@ public class UserRestController {
 	@ApiOperation(value = "USER 조회", notes = "USER 하나를 조회합니다.")
 	@GetMapping(value="/{user_id}")
 	@ResponseBody
-	public ResponseEntity<SuccessStatusResponse> getUserById(@PathVariable String user_id) {
+	public ResponseEntity<SuccessStatusResponse> getUserById(@PathVariable Long user_id) {
 		HashMap<String,Object> param = new HashMap<String,Object>();
 		param.put("user_id", user_id);
 		return ResponseEntity.status(CommonStatusCode.OK.getHttpStatus())
@@ -114,7 +119,7 @@ public class UserRestController {
 	@ApiOperation(value = "USER 삭제", notes = "USER 하나를 삭제합니다.")
 	@DeleteMapping(value="/{user_id}")
 	@ResponseBody
-	public ResponseEntity<SuccessStatusResponse> deleteUserById(@PathVariable String user_id) {
+	public ResponseEntity<SuccessStatusResponse> deleteUserById(@PathVariable Long user_id) {
 		HashMap<String,Object> param = new HashMap<String,Object>();
 		param.put("user_id", user_id);
 		return ResponseEntity.status(CommonStatusCode.OK.getHttpStatus())
