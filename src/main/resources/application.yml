@@ -1,0 +1,25 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+    encoding:      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  jpa:
+    database: H2
+    hibernate:
+      # create - 생성한것 계속 쓰기
+      ddl-auto: create
+  datasource:
+  # url접속시 jdbc:h2:mem:testdb 이걸 꼭 적어줘야 웹페이지로 DB정보를 볼 수 있다.
+  # http://localhost:8080/h2console
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: 
+    driverClassName: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2console
