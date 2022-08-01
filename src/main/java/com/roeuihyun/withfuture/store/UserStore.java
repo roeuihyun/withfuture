@@ -2,7 +2,7 @@
  *                        Copyright(c) 2022 WithFuture
  *
  * Project                : withfuture
- * Source File Name       : com.roeuihyun.withfuture.exception.RestApiException
+ * Source File Name       : com.roeuihyun.withfuture.store.UserStore
  * Description            :
  * Author                 : 노의현
  * Version                : 1.0.0
@@ -12,18 +12,17 @@
  * Updated Contents       : 
  * 2022.08.01 최초 작성
  *===============================================================================*/
-package com.roeuihyun.withfuture.exception;
+package com.roeuihyun.withfuture.store;
 
-import com.roeuihyun.withfuture.enums.StatusCode;
+import java.util.UUID;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-@Getter
-@RequiredArgsConstructor
-public class RestApiException extends RuntimeException {
+import com.roeuihyun.withfuture.dto.UserDTO;
 
-	private static final long serialVersionUID = 1L;
-	private final StatusCode statusCode;
-
+@Repository
+public interface UserStore extends CrudRepository<UserDTO, UUID>{
+	
 }
+

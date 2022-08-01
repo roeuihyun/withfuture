@@ -23,3 +23,7 @@ spring:
     console:
       enabled: true
       path: /h2console
+      
+pagehelper:
+  helper-dialect: h2
+  reasonable: true # 범위를 넘어가는 pageNum이 들어올 때 가능할 값으로 변경

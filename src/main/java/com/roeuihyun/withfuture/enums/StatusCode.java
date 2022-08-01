@@ -2,7 +2,7 @@
  *                        Copyright(c) 2022 WithFuture
  *
  * Project                : withfuture
- * Source File Name       : com.roeuihyun.withfuture.WithfutureApplication
+ * Source File Name       : com.roeuihyun.withfuture.enums.StatusCode
  * Description            :
  * Author                 : 노의현
  * Version                : 1.0.0
@@ -12,16 +12,15 @@
  * Updated Contents       : 
  * 2022.08.01 최초 작성
  *===============================================================================*/
-package com.roeuihyun.withfuture;
+package com.roeuihyun.withfuture.enums;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.HttpStatus;
 
-@SpringBootApplication
-public class WithfutureApplication {
+public interface StatusCode {
 
-	public static void main(String[] args) {
-		SpringApplication.run(WithfutureApplication.class, args);
-	}
-
+	HttpStatus getHttpStatus();
+	int getBiz_code();
+    String name();
+    String getMessage();
+	
 }

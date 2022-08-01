@@ -1,16 +1,16 @@
 /*=================================================================================
  *                        Copyright(c) 2022 WithFuture
  *
- * Project                : withMETAdata-boot
- * Source File Name       : com.withfuture.withmetadata.filter.HTMLCharacterEscapes
- * Description            : 출력시 Jackson 같은 Mapper를 통해 JSON 문자열로 Response에 담겨지므로, Mapper가 JSON 문자열을 생성할 때 XSS 방지 처리
- * Author                 : 남건우
+ * Project                : withfuture
+ * Source File Name       : com.roeuihyun.withfuture.configuration.HtmlCharacterEscapes
+ * Description            :
+ * Author                 : 노의현
  * Version                : 1.0.0
- * Created Date           : 2022.07.05
- * Updated Date           : 2022.07.05
- * Last Modifier          : 남건우
+ * Created Date           : 2022.08.01
+ * Updated Date           : 2022.08.01
+ * Last Modifier          : 노의현
  * Updated Contents       : 
- * 2022.07.05 최초 작성
+ * 2022.08.01 최초 작성
  *===============================================================================*/
 package com.roeuihyun.withfuture.configuration;
 
@@ -29,6 +29,7 @@ import com.fasterxml.jackson.core.io.SerializedString;
 
 public class HtmlCharacterEscapes extends CharacterEscapes{
 	
+	private static final long serialVersionUID = 1L;
 	private final int[] asciiEscapes;
 	private final CharSequenceTranslator translator;
 	
