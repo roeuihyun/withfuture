@@ -40,7 +40,7 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/User")
+@RequestMapping("/Users")
 @RequiredArgsConstructor
 public class UserRestController {
 	

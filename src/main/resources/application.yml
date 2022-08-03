@@ -7,6 +7,12 @@ server:
       force: true
 
 spring:
+#  mvc:
+#  pathmatch:
+#    matching-strategy: ant_path_matcher
+  mvc:
+    pathmatch:
+      matching-strategy: "path-pattern-parser"
   main:
     allow-circular-references: true
 #  jpa:

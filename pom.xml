@@ -54,12 +54,6 @@
 		  <artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
         
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
@@ -92,21 +86,32 @@
         </dependency>
 		
 		<dependency>
-		    <groupId>io.springfox</groupId>
-		    <artifactId>springfox-boot-starter</artifactId>
-		    <version>3.0.0</version>
-		</dependency>
-		
-		<dependency>
-		    <groupId>io.springfox</groupId>
-		    <artifactId>springfox-swagger-ui</artifactId>
-		    <version>3.0.0</version>
-		</dependency>
-		
-		<dependency>
 		    <groupId>com.google.guava</groupId>
 		    <artifactId>guava</artifactId>
 		    <version>14.0</version>
+		</dependency>
+		
+       <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-hateoas</artifactId>
+        </dependency>
+        
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-boot-starter</artifactId>
+			<version>3.0.0</version>
 		</dependency>
 		
 	</dependencies>
