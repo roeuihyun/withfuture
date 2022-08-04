@@ -16,13 +16,15 @@ package com.roeuihyun.withfuture.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PostLoad;
+import javax.persistence.PostPersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.domain.Persistable;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -38,16 +40,15 @@ import lombok.Setter;
 @DynamicInsert // insert 되기 전에 엔티티에 설정된 컬럼 정보 중 null이 아닌 컬럼만을 이용하여 동적 insert 쿼리를 생성
 @DynamicUpdate // 엔티티 update 할 때, 변경된 컬럼정보만을 이용하여 동적 쿼리를 생성
 @Table(name = "users") // 테이블명과 클래스명이 다를경우
-public class UserDTO {
+public class UserDTO implements Persistable<Long>{
 	
 	@Id
 	@Column(nullable = false)
-//	@GeneratedValue(strategy = GenerationType.AUTO)
 	@ApiModelProperty(value = "아이디", dataType = "long", required = true)  
 	private long user_id;
 	
 	@Column(nullable = false) 
-	@ApiModelProperty(value = "이름", dataType = "string", required = false)
+	@ApiModelProperty(value = "이름", dataType = "string", required = true)
 	private String user_name;
 	
 	@Column(nullable = true) 
@@ -57,5 +58,24 @@ public class UserDTO {
 	@Column(nullable = true) 
 	@ApiModelProperty(value = "주소", dataType = "string", required = false)
 	private String user_addr;
+
+	@Override
+	public Long getId() {
+		return user_id;
+	}
+
+	@Transient
+    boolean isNew = true;
+
+    @Override
+    public boolean isNew() {
+        return this.isNew;
+    }
+
+    @PostPersist
+    @PostLoad
+    public void modifyIsNew(){
+        this.isNew = false;
+    }
 	
 }
