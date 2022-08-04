@@ -24,7 +24,6 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.domain.Persistable;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -40,7 +39,7 @@ import lombok.Setter;
 @DynamicInsert // insert 되기 전에 엔티티에 설정된 컬럼 정보 중 null이 아닌 컬럼만을 이용하여 동적 insert 쿼리를 생성
 @DynamicUpdate // 엔티티 update 할 때, 변경된 컬럼정보만을 이용하여 동적 쿼리를 생성
 @Table(name = "users") // 테이블명과 클래스명이 다를경우
-public class UserDTO implements Persistable<Long>{
+public class UserDTO implements AuditEntity{
 	
 	@Id
 	@Column(nullable = false)
