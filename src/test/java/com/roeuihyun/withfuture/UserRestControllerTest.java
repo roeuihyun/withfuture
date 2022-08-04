@@ -18,6 +18,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
@@ -60,7 +62,10 @@ public class UserRestControllerTest {
     @DisplayName("사용자 전체 조회")
 	@Test
 	public void getAllUser() throws Exception {
-        mockMvc.perform(get(BASE_URL)
+    	MultiValueMap<String, String> paramMap =new LinkedMultiValueMap<>();
+    	paramMap.add("pageNum", "1");
+    	paramMap.add("pageSize", "10");
+        mockMvc.perform(get(BASE_URL).params(paramMap)
 //                .accept(MediaTypes.HAL_JSON_VALUE)
                 )
                 .andDo(print())

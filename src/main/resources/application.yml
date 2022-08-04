@@ -9,10 +9,10 @@ server:
 spring:
 #  mvc:
 #  pathmatch:
-#    matching-strategy: ant_path_matcher
+#    matching-strategy: ant_path_matcher # "path-pattern-parser"
   mvc:
     pathmatch:
-      matching-strategy: "path-pattern-parser"
+      matching-strategy: "ant_path_matcher"
   main:
     allow-circular-references: true
 #  jpa:
