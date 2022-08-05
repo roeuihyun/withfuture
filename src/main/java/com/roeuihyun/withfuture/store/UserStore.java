@@ -17,10 +17,10 @@ package com.roeuihyun.withfuture.store;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.roeuihyun.withfuture.dto.UserDTO;
+import com.roeuihyun.withfuture.entity.UserEO;
 
 @Repository
-public interface UserStore extends CrudRepository<UserDTO, Long>{
+public interface UserStore extends CrudRepository<UserEO, Long>{
 	
 }
 

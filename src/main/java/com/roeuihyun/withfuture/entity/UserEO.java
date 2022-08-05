@@ -2,7 +2,7 @@
  *                        Copyright(c) 2022 WithFuture
  *
  * Project                : withfuture
- * Source File Name       : com.roeuihyun.withfuture.dto.UserDTO
+ * Source File Name       : com.roeuihyun.withfuture.entity.UserEO
  * Description            :
  * Author                 : 노의현
  * Version                : 1.0.0
@@ -12,7 +12,7 @@
  * Updated Contents       : 
  * 2022.08.01 최초 작성
  *===============================================================================*/
-package com.roeuihyun.withfuture.dto;
+package com.roeuihyun.withfuture.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,7 +39,7 @@ import lombok.Setter;
 @DynamicInsert // insert 되기 전에 엔티티에 설정된 컬럼 정보 중 null이 아닌 컬럼만을 이용하여 동적 insert 쿼리를 생성
 @DynamicUpdate // 엔티티 update 할 때, 변경된 컬럼정보만을 이용하여 동적 쿼리를 생성
 @Table(name = "users") // 테이블명과 클래스명이 다를경우
-public class UserDTO implements AuditEntity{
+public class UserEO implements AuditEntity{
 	
 	@Id
 	@Column(nullable = false)

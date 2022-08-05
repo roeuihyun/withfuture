@@ -18,19 +18,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-import com.roeuihyun.withfuture.dto.UserDTO;
+import com.roeuihyun.withfuture.entity.UserEO;
 
 public interface UserService {
 
-	Optional<UserDTO> insertUser(HashMap<String, Object> param);
+	Optional<UserEO> insertUser(HashMap<String, Object> param);
 
-	List<UserDTO> getAllUser();
+	List<UserEO> getAllUser();
 
-	Optional<UserDTO> getUserById(HashMap<String, Object> param);
+	Optional<UserEO> getUserById(HashMap<String, Object> param);
 
-	Optional<UserDTO> putUser(HashMap<String, Object> param);
+	Optional<UserEO> putUser(HashMap<String, Object> param);
 
-	Optional<UserDTO> deleteUserById(HashMap<String, Object> param);
+	Optional<UserEO> deleteUserById(HashMap<String, Object> param);
 	
 
 }

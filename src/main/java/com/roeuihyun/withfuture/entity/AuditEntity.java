@@ -1,4 +1,4 @@
-package com.roeuihyun.withfuture.dto;
+package com.roeuihyun.withfuture.entity;
 
 import org.springframework.data.domain.Persistable;
 

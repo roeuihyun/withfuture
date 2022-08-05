@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.roeuihyun.withfuture.dto.UserDTO;
+import com.roeuihyun.withfuture.entity.UserEO;
 import com.roeuihyun.withfuture.enums.CommonStatusCode;
 import com.roeuihyun.withfuture.response.SuccessStatusResponse;
 import com.roeuihyun.withfuture.service.UserService;
@@ -49,15 +49,15 @@ public class UserRestController {
 	@ApiOperation(value = "USER 추가", notes = "USER 하나를 추가합니다.")
 	@PostMapping(value="")
 	@ResponseBody
-	public ResponseEntity<SuccessStatusResponse> insertUser(@RequestBody UserDTO userDTO) {
+	public ResponseEntity<SuccessStatusResponse> insertUser(@RequestBody UserEO userEO) {
 		HashMap<String,Object> param = new HashMap<String,Object>();
-		System.out.println(userDTO);
-		System.out.println(userDTO.getUser_id());
-		System.out.println(userDTO.getUser_name());
-		System.out.println(userDTO.getUser_addr());
-		System.out.println(userDTO.getUser_email());
-		param.put("user_id", userDTO.getUser_id());
-		param.put("userDTO", userDTO);
+		System.out.println(userEO);
+		System.out.println(userEO.getUser_id());
+		System.out.println(userEO.getUser_name());
+		System.out.println(userEO.getUser_addr());
+		System.out.println(userEO.getUser_email());
+		param.put("user_id", userEO.getUser_id());
+		param.put("userDTO", userEO);
 		return ResponseEntity.status(CommonStatusCode.OK.getHttpStatus())
 		        .body(SuccessStatusResponse.builder()
 //								        .http_code(CommonStatusCode.OK.getHttpStatus().toString())
@@ -103,10 +103,10 @@ public class UserRestController {
 	@ApiOperation(value = "USER 수정", notes = "USER 하나를 수정합니다.")
 	@PutMapping(value="")
 	@ResponseBody
-	public ResponseEntity<SuccessStatusResponse> putUser( @RequestBody UserDTO userDTO) {
+	public ResponseEntity<SuccessStatusResponse> putUser( @RequestBody UserEO userEO) {
 		HashMap<String,Object> param = new HashMap<String,Object>();
-		param.put("user_id", userDTO.getUser_id());
-		param.put("userDTO", userDTO);
+		param.put("user_id", userEO.getUser_id());
+		param.put("userDTO", userEO);
 		return ResponseEntity.status(CommonStatusCode.OK.getHttpStatus())
 		        .body(SuccessStatusResponse.builder()
 //								        .http_code(CommonStatusCode.OK.getHttpStatus().toString())

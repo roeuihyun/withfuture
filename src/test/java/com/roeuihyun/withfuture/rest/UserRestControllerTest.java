@@ -26,7 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.roeuihyun.withfuture.dto.UserDTO;
+import com.roeuihyun.withfuture.entity.UserEO;
 import com.roeuihyun.withfuture.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -59,14 +59,14 @@ public class UserRestControllerTest {
                 				 .addFilter(new CharacterEncodingFilter("UTF-8", true)) // 2.2 버전 이후 mock 객체에서 한글 인코딩 처리해야함. -> 필터추가
                 				 .alwaysDo(print())
                 				 .build();
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUser_id(1L);
-        userDTO.setUser_name("홍길동");
-        userDTO.setUser_email("홍길동@posco.com");
-        userDTO.setUser_addr("홍길동의 집");
+        UserEO userEO = new UserEO();
+        userEO.setUser_id(1L);
+        userEO.setUser_name("홍길동");
+        userEO.setUser_email("홍길동@posco.com");
+        userEO.setUser_addr("홍길동의 집");
         HashMap<String,Object> param = new HashMap<String,Object>();
-        param.put("user_id", userDTO.getId());
-        param.put("userDTO", userDTO);
+        param.put("user_id", userEO.getId());
+        param.put("userDTO", userEO);
         userService.insertUser(param);
         System.out.println(userService.getAllUser());
     }
