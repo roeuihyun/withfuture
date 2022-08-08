@@ -4,19 +4,18 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.HashMap;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -26,15 +25,12 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.roeuihyun.withfuture.entity.UserEO;
 import com.roeuihyun.withfuture.service.UserService;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @EnableAutoConfiguration
 //@ExtendWith(SpringExtension.class) 5 버전
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 //@SpringBootTest(classes= {UserRestController.class}) // 테스트 대상 클래스 등록
 @WebMvcTest(UserRestController.class)
 @AutoConfigureMockMvc
@@ -59,16 +55,6 @@ public class UserRestControllerTest {
                 				 .addFilter(new CharacterEncodingFilter("UTF-8", true)) // 2.2 버전 이후 mock 객체에서 한글 인코딩 처리해야함. -> 필터추가
                 				 .alwaysDo(print())
                 				 .build();
-        UserEO userEO = new UserEO();
-        userEO.setUser_id(1L);
-        userEO.setUser_name("홍길동");
-        userEO.setUser_email("홍길동@posco.com");
-        userEO.setUser_addr("홍길동의 집");
-        HashMap<String,Object> param = new HashMap<String,Object>();
-        param.put("user_id", userEO.getId());
-        param.put("userDTO", userEO);
-        userService.insertUser(param);
-        System.out.println(userService.getAllUser());
     }
 	
     @Order(1)
@@ -79,7 +65,7 @@ public class UserRestControllerTest {
     	paramMap.add("pageNum", "1");
     	paramMap.add("pageSize", "10");
         mockMvc.perform(get(BASE_URL).params(paramMap)
-//                .accept(MediaTypes.HAL_JSON_VALUE)
+                .accept(MediaTypes.HAL_JSON_VALUE)
                 )
         		.andExpect(status().isOk())
                 .andDo(print())

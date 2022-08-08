@@ -14,9 +14,13 @@
  *===============================================================================*/
 package com.roeuihyun.withfuture.rest;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.HashMap;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,89 +49,99 @@ import lombok.RequiredArgsConstructor;
 public class UserRestController {
 	
 	private final UserService userService;
+	private int defaultPageNum = 1;
+	private int defaultPageSize = 10;
 	
 	@ApiOperation(value = "USER 추가", notes = "USER 하나를 추가합니다.")
-	@PostMapping(value="")
+	@PostMapping(value="", produces = MediaTypes.HAL_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<SuccessStatusResponse> insertUser(@RequestBody UserEO userEO) {
+	public EntityModel<SuccessStatusResponse> insertUser(@RequestBody UserEO userEO) {
 		HashMap<String,Object> param = new HashMap<String,Object>();
-		System.out.println(userEO);
-		System.out.println(userEO.getUser_id());
-		System.out.println(userEO.getUser_name());
-		System.out.println(userEO.getUser_addr());
-		System.out.println(userEO.getUser_email());
 		param.put("user_id", userEO.getUser_id());
-		param.put("userDTO", userEO);
-		return ResponseEntity.status(CommonStatusCode.OK.getHttpStatus())
-		        .body(SuccessStatusResponse.builder()
-//								        .http_code(CommonStatusCode.OK.getHttpStatus().toString())
-								        .biz_code(CommonStatusCode.OK.getBiz_code())
-								        .message(CommonStatusCode.OK.getMessage())
-								        .result(userService.insertUser(param))
-								        .build());
+		param.put("userEO", userEO);
+		@SuppressWarnings("deprecation")
+		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
+		        .biz_code(CommonStatusCode.OK.getBiz_code())
+		        .message(CommonStatusCode.OK.getMessage())
+		        .result(userService.insertUser(param))
+		        .build());
+		model.add( linkTo( methodOn( this.getClass() ).insertUser( userEO ) ).withRel("self") );
+		model.add( linkTo( methodOn( this.getClass() ).getUserById( userEO.getUser_id() ) ).withRel("detail-user") );
+		return model;
 	}
 	
 	@ApiOperation(value = "USER 전체 조회", notes = "USER 전체를 조회합니다.")
-	@GetMapping(value="")
+	@GetMapping(value="", produces = MediaTypes.HAL_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<SuccessStatusResponse> getAllUser(
+	public EntityModel<SuccessStatusResponse> getAllUser(
 			@ApiParam(value = "PagingNumber", required = true, example = "1", defaultValue = "1")
 			@RequestParam int pageNum,
 			@ApiParam(value = "PagingSize", required = true, example = "10", defaultValue = "10")
 			@RequestParam int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
-		return ResponseEntity.status(CommonStatusCode.OK.getHttpStatus())
-		        .body(SuccessStatusResponse.builder()
-//								        .http_code(CommonStatusCode.OK.getHttpStatus().toString())
-								        .biz_code(CommonStatusCode.OK.getBiz_code())
-								        .message(CommonStatusCode.OK.getMessage())
-								        .result(PageInfo.of(userService.getAllUser()))
-								        .build());
+		@SuppressWarnings("deprecation")
+		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
+		        .biz_code(CommonStatusCode.OK.getBiz_code())
+		        .message(CommonStatusCode.OK.getMessage())
+		        .result(PageInfo.of(userService.getAllUser()))
+		        .build());
+		model.add( linkTo( methodOn(this.getClass() ).getAllUser(pageNum,pageSize) ).withRel("self") );
+		return model;
 	}
 	
 	@ApiOperation(value = "USER 조회", notes = "USER 하나를 조회합니다.")
-	@GetMapping(value="/{user_id}")
+	@GetMapping(value="/{user_id}", produces = MediaTypes.HAL_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<SuccessStatusResponse> getUserById(@PathVariable Long user_id) {
+	public EntityModel<SuccessStatusResponse> getUserById(@PathVariable Long user_id) {
 		HashMap<String,Object> param = new HashMap<String,Object>();
 		param.put("user_id", user_id);
-		return ResponseEntity.status(CommonStatusCode.OK.getHttpStatus())
-		        .body(SuccessStatusResponse.builder()
-//								        .http_code(CommonStatusCode.OK.getHttpStatus().toString())
-								        .biz_code(CommonStatusCode.OK.getBiz_code())
-								        .message(CommonStatusCode.OK.getMessage())
-								        .result(userService.getUserById(param))
-								        .build());
+		@SuppressWarnings("deprecation")
+		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
+		        .biz_code(CommonStatusCode.OK.getBiz_code())
+		        .message(CommonStatusCode.OK.getMessage())
+		        .result(userService.getUserById(param))
+		        .build());
+		model.add( linkTo( methodOn( this.getClass() ).getUserById( user_id ) ).withRel("self") );
+		model.add( linkTo( methodOn( this.getClass() ).getAllUser( defaultPageNum , defaultPageSize ) ).withRel("all-user") );
+		model.add( linkTo( methodOn( this.getClass() ).putUser( userService.getUserById(param).get() ) ).withRel("update-user") );
+		model.add( linkTo( methodOn( this.getClass() ).deleteUserById( user_id ) ).withRel("delete stdword"));
+		return model;
 	}
 	
 	@ApiOperation(value = "USER 수정", notes = "USER 하나를 수정합니다.")
-	@PutMapping(value="")
+	@PutMapping(value="", produces = MediaTypes.HAL_JSON_VALUE, consumes = MediaTypes.HAL_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<SuccessStatusResponse> putUser( @RequestBody UserEO userEO) {
+	public EntityModel<SuccessStatusResponse> putUser( @RequestBody UserEO userEO) {
 		HashMap<String,Object> param = new HashMap<String,Object>();
 		param.put("user_id", userEO.getUser_id());
-		param.put("userDTO", userEO);
-		return ResponseEntity.status(CommonStatusCode.OK.getHttpStatus())
-		        .body(SuccessStatusResponse.builder()
-//								        .http_code(CommonStatusCode.OK.getHttpStatus().toString())
-								        .biz_code(CommonStatusCode.OK.getBiz_code())
-								        .message(CommonStatusCode.OK.getMessage())
-								        .result(userService.putUser(param))
-								        .build());
+		param.put("userEO", userEO);
+		@SuppressWarnings("deprecation")
+		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
+		        .biz_code(CommonStatusCode.OK.getBiz_code())
+		        .message(CommonStatusCode.OK.getMessage())
+		        .result(userService.getUserById(param))
+		        .build());
+		model.add( linkTo( methodOn( this.getClass() ).putUser( userEO ) ).withRel("self") );
+		model.add( linkTo( methodOn( this.getClass() ).getAllUser( defaultPageNum , defaultPageSize ) ).withRel("all-user") );
+		model.add( linkTo( methodOn( this.getClass() ).getUserById( userEO.getUser_id() ) ).withRel("detail-user") );
+		model.add( linkTo( methodOn( this.getClass() ).deleteUserById( userEO.getUser_id() ) ).withRel("delete-user"));
+		return model;
 	}
 	
 	@ApiOperation(value = "USER 삭제", notes = "USER 하나를 삭제합니다.")
-	@DeleteMapping(value="/{user_id}")
+	@DeleteMapping(value="/{user_id}", produces = MediaTypes.HAL_JSON_VALUE, consumes = MediaTypes.HAL_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<SuccessStatusResponse> deleteUserById(@PathVariable Long user_id) {
+	public EntityModel<SuccessStatusResponse> deleteUserById(@PathVariable Long user_id) {
 		HashMap<String,Object> param = new HashMap<String,Object>();
 		param.put("user_id", user_id);
-		return ResponseEntity.status(CommonStatusCode.OK.getHttpStatus())
-		        .body(SuccessStatusResponse.builder()
-//								        .http_code(CommonStatusCode.OK.getHttpStatus().toString())
-								        .biz_code(CommonStatusCode.OK.getBiz_code())
-								        .message(CommonStatusCode.OK.getMessage())
-								        .result(userService.deleteUserById(param))
-								        .build());
+		@SuppressWarnings("deprecation")
+		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
+		        .biz_code(CommonStatusCode.OK.getBiz_code())
+		        .message(CommonStatusCode.OK.getMessage())
+		        .result(userService.getUserById(param))
+		        .build());
+		model.add( linkTo( methodOn(this.getClass() ).deleteUserById( user_id ) ).withRel("self") );
+		model.add( linkTo( methodOn( this.getClass() ).getAllUser( defaultPageNum , defaultPageSize ) ).withRel("all-user") );
+		return model;
 	}
 }
