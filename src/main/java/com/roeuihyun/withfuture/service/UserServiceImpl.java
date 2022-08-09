@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.roeuihyun.withfuture.entity.UserEO;
@@ -28,19 +30,21 @@ import com.roeuihyun.withfuture.store.UserStore;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 	
 	private final UserStore userStore;
 	
 	@Override
-	public Optional<UserEO> insertUser(HashMap<String, Object> param) {
+	@Transactional
+	public UserEO insertUser(HashMap<String, Object> param) {
 		Optional<UserEO> currentUser = userStore.findById((Long)param.get("user_id"));
 		if( currentUser.isPresent() ) {
 			throw new BizException(BizStatusCode.USER_EXIST);
 		}
-		userStore.save((UserEO)param.get("userDTO"));
-		return userStore.findById((Long)param.get("user_id"));
+		userStore.save((UserEO)param.get("userEO"));
+		return userStore.findById((Long)param.get("user_id")).get();
 	}
 
 	@Override
@@ -49,28 +53,34 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public Optional<UserEO> getUserById(HashMap<String, Object> param) {
-		return userStore.findById((Long)param.get("user_id"));
-	}
-
-	@Override
-	public Optional<UserEO> putUser(HashMap<String, Object> param) {
+	public UserEO getUserById(HashMap<String, Object> param) {
 		Optional<UserEO> currentUser = userStore.findById((Long)param.get("user_id"));
 		if( !currentUser.isPresent() ) {
 			throw new BizException(BizStatusCode.USER_NOT_FOUND);		
 		}
-		userStore.save((UserEO)param.get("userDTO"));
-		return userStore.findById((Long)param.get("user_id"));
+		return currentUser.get();
 	}
 
 	@Override
-	public Optional<UserEO> deleteUserById(HashMap<String, Object> param) {
+	@Transactional
+	public UserEO putUser(HashMap<String, Object> param) {
 		Optional<UserEO> currentUser = userStore.findById((Long)param.get("user_id"));
 		if( !currentUser.isPresent() ) {
 			throw new BizException(BizStatusCode.USER_NOT_FOUND);		
 		}
-		userStore.deleteById((Long)param.get("userDTO"));
-		return currentUser;
+		userStore.save((UserEO)param.get("userEO"));
+		return userStore.findById((Long)param.get("user_id")).get();
+	}
+
+	@Override
+	@Transactional
+	public UserEO deleteUserById(HashMap<String, Object> param) {
+		Optional<UserEO> currentUser = userStore.findById((Long)param.get("user_id"));
+		if( !currentUser.isPresent() ) {
+			throw new BizException(BizStatusCode.USER_NOT_FOUND);		
+		}
+		userStore.deleteById((Long)param.get("user_id"));
+		return currentUser.get();
 	}
 
 

@@ -38,8 +38,8 @@ public class XssFilterResponseConfig extends WebMvcConfigurationSupport{
 		
 		super.configureMessageConverters(converters);
 		
-		// 3. WebMvcConfigurerAdapter에 MessageConverter 추가
-		converters.add(jsonEscapeConverter());
+		// Swagger Test 를 위해 임시로 Off
+//		converters.add(jsonEscapeConverter()); // WebMvcConfigurerAdapter에 MessageConverter 추가
 		
 	}
 	

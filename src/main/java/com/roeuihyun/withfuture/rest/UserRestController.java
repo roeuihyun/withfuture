@@ -39,10 +39,20 @@ import com.roeuihyun.withfuture.enums.CommonStatusCode;
 import com.roeuihyun.withfuture.response.SuccessStatusResponse;
 import com.roeuihyun.withfuture.service.UserService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
+@Api("USER API")
+@ApiResponses( value = {
+        	@ApiResponse( code = 200 , message = "정상" ),
+            @ApiResponse( code = 400 , message = "잘못된접근" ),
+            @ApiResponse( code = 500 , message = "서버 에러")
+			}
+		)
 @RestController
 @RequestMapping("/Users")
 @RequiredArgsConstructor
@@ -71,7 +81,7 @@ public class UserRestController {
 	}
 	
 	@ApiOperation(value = "USER 전체 조회", notes = "USER 전체를 조회합니다.")
-	@GetMapping(value="", produces = MediaTypes.HAL_JSON_VALUE)
+	@GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
 	@ResponseBody
 	public EntityModel<SuccessStatusResponse> getAllUser(
 			@ApiParam(value = "PagingNumber", required = true, example = "1", defaultValue = "1")
@@ -103,7 +113,7 @@ public class UserRestController {
 		        .build());
 		model.add( linkTo( methodOn( this.getClass() ).getUserById( user_id ) ).withRel("self") );
 		model.add( linkTo( methodOn( this.getClass() ).getAllUser( defaultPageNum , defaultPageSize ) ).withRel("all-user") );
-		model.add( linkTo( methodOn( this.getClass() ).putUser( userService.getUserById(param).get() ) ).withRel("update-user") );
+		model.add( linkTo( methodOn( this.getClass() ).putUser( userService.getUserById(param) ) ).withRel("update-user") );
 		model.add( linkTo( methodOn( this.getClass() ).deleteUserById( user_id ) ).withRel("delete stdword"));
 		return model;
 	}

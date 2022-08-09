@@ -32,6 +32,7 @@ spring:
     driver-class-name: org.h2.Driver
     # springboot 2.4 부터는 username이 꼭 있어야합니다. 없으면 에러가 발생합니다.
     username: sa
+    password: 1234
   jpa:
     # JPA가 수행하는 SQL을 볼 수 있다.
     show-sql: true

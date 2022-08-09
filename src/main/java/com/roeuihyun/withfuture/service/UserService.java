@@ -16,21 +16,20 @@ package com.roeuihyun.withfuture.service;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 import com.roeuihyun.withfuture.entity.UserEO;
 
 public interface UserService {
 
-	Optional<UserEO> insertUser(HashMap<String, Object> param);
+	UserEO insertUser(HashMap<String, Object> param);
 
 	List<UserEO> getAllUser();
 
-	Optional<UserEO> getUserById(HashMap<String, Object> param);
+	UserEO getUserById(HashMap<String, Object> param);
 
-	Optional<UserEO> putUser(HashMap<String, Object> param);
+	UserEO putUser(HashMap<String, Object> param);
 
-	Optional<UserEO> deleteUserById(HashMap<String, Object> param);
+	UserEO deleteUserById(HashMap<String, Object> param);
 	
 
 }

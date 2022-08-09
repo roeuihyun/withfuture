@@ -42,19 +42,19 @@ import lombok.Setter;
 public class UserEO implements AuditEntity{
 	
 	@Id
-	@Column(nullable = false)
+	@Column(name = "user_id",nullable = false)
 	@ApiModelProperty(value = "아이디", dataType = "long", required = true)  
 	private long user_id;
 	
-	@Column(nullable = false) 
-	@ApiModelProperty(value = "이름", dataType = "string", required = true)
+	@Column(name = "user_name",nullable = false) 
+	@ApiModelProperty(value = "이름", dataType = "string", required = false)
 	private String user_name;
 	
-	@Column(nullable = true) 
+	@Column(name = "user_email",nullable = true) 
 	@ApiModelProperty(value = "이메일", dataType = "string", required = false)
 	private String user_email;
 	
-	@Column(nullable = true) 
+	@Column(name = "user_addr",nullable = true) 
 	@ApiModelProperty(value = "주소", dataType = "string", required = false)
 	private String user_addr;
 

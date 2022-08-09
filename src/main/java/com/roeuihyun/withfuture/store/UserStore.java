@@ -14,13 +14,13 @@
  *===============================================================================*/
 package com.roeuihyun.withfuture.store;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.roeuihyun.withfuture.entity.UserEO;
 
 @Repository
-public interface UserStore extends CrudRepository<UserEO, Long>{
+public interface UserStore extends JpaRepository<UserEO, Long>{
 	
 }
 
