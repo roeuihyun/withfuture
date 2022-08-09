@@ -109,7 +109,7 @@ public class UserRestController {
 	}
 	
 	@ApiOperation(value = "USER 수정", notes = "USER 하나를 수정합니다.")
-	@PutMapping(value="", produces = MediaTypes.HAL_JSON_VALUE, consumes = MediaTypes.HAL_JSON_VALUE)
+	@PutMapping(value="", produces = MediaTypes.HAL_JSON_VALUE)
 	@ResponseBody
 	public EntityModel<SuccessStatusResponse> putUser( @RequestBody UserEO userEO) {
 		HashMap<String,Object> param = new HashMap<String,Object>();
@@ -119,7 +119,7 @@ public class UserRestController {
 		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
 		        .biz_code(CommonStatusCode.OK.getBiz_code())
 		        .message(CommonStatusCode.OK.getMessage())
-		        .result(userService.getUserById(param))
+		        .result(userService.putUser(param))
 		        .build());
 		model.add( linkTo( methodOn( this.getClass() ).putUser( userEO ) ).withRel("self") );
 		model.add( linkTo( methodOn( this.getClass() ).getAllUser( defaultPageNum , defaultPageSize ) ).withRel("all-user") );
@@ -129,7 +129,7 @@ public class UserRestController {
 	}
 	
 	@ApiOperation(value = "USER 삭제", notes = "USER 하나를 삭제합니다.")
-	@DeleteMapping(value="/{user_id}", produces = MediaTypes.HAL_JSON_VALUE, consumes = MediaTypes.HAL_JSON_VALUE)
+	@DeleteMapping(value="/{user_id}", produces = MediaTypes.HAL_JSON_VALUE)
 	@ResponseBody
 	public EntityModel<SuccessStatusResponse> deleteUserById(@PathVariable Long user_id) {
 		HashMap<String,Object> param = new HashMap<String,Object>();
@@ -138,7 +138,7 @@ public class UserRestController {
 		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
 		        .biz_code(CommonStatusCode.OK.getBiz_code())
 		        .message(CommonStatusCode.OK.getMessage())
-		        .result(userService.getUserById(param))
+		        .result(userService.deleteUserById(param))
 		        .build());
 		model.add( linkTo( methodOn(this.getClass() ).deleteUserById( user_id ) ).withRel("self") );
 		model.add( linkTo( methodOn( this.getClass() ).getAllUser( defaultPageNum , defaultPageSize ) ).withRel("all-user") );
