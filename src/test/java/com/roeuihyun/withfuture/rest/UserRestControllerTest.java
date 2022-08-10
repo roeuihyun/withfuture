@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
@@ -38,15 +39,14 @@ import com.roeuihyun.withfuture.entity.UserEO;
 //@AutoConfigureMockMvc
 //@WebAppConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@ActiveProfiles("local")
+@ActiveProfiles("default")
 public class UserRestControllerTest {
 	
     private final String BASE_URL = "/Users";
     
     MockMvc mockMvc;
 
-//    private final Long user_id = 1L;
-    private final Long user_id = Long.parseLong("111");
+    private Long user_id = Long.parseLong("111");
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -73,7 +73,7 @@ public class UserRestControllerTest {
     @Rollback(false)
 	@Test
 	void insertUser() throws Exception {
-    	
+    	user_id = Long.parseLong("111");
     	UserEO userEO = new UserEO();
     	userEO.setUser_id(user_id);
     	userEO.setUser_name("userTest");
@@ -86,7 +86,6 @@ public class UserRestControllerTest {
 				.contentType(MediaTypes.HAL_JSON_VALUE)
 				.content(objectMapper.writeValueAsString(userEO))
 			)
-			.andDo(print())
 			;
 		
 	}
@@ -95,7 +94,7 @@ public class UserRestControllerTest {
     @DisplayName("사용자 전체 조회")
 	@Test
 	void getAllUser() throws Exception {
-    	
+    	user_id = Long.parseLong("111");
     	MultiValueMap<String, String> paramMap =new LinkedMultiValueMap<>();
     	paramMap.add("pageNum", "1");
     	paramMap.add("pageSize", "10");
@@ -105,7 +104,6 @@ public class UserRestControllerTest {
                 .contentType(MediaTypes.HAL_JSON_VALUE)
         		.params(paramMap)
         		)
-				.andDo(print())
 				;
 		
 	}
@@ -114,13 +112,12 @@ public class UserRestControllerTest {
     @DisplayName("사용자 조회")
 	@Test
 	void getUserById() throws Exception {
-		
+    	user_id = Long.parseLong("111");
         mockMvc.perform(
         		get(BASE_URL+"/"+ user_id)
         		.characterEncoding("UTF-8")
                 .contentType(MediaTypes.HAL_JSON_VALUE)
     			)
-    			.andDo(print())
     			;
 		
 	}
@@ -131,7 +128,7 @@ public class UserRestControllerTest {
     @Rollback(false)
 	@Test
 	void putUser() throws Exception {
-    	
+    	user_id = Long.parseLong("111");
     	UserEO userEO = new UserEO();
     	userEO.setUser_id(user_id);
     	userEO.setUser_name("userTest 수정");
@@ -144,7 +141,6 @@ public class UserRestControllerTest {
 				.contentType(MediaTypes.HAL_JSON_VALUE)
 				.content(objectMapper.writeValueAsString(userEO))
 			)
-			.andDo(print())
 			;
 		
 	}
@@ -155,13 +151,12 @@ public class UserRestControllerTest {
     @Rollback(false)
 	@Test
 	void deleteUserById() throws Exception {
-		
+    	user_id = Long.parseLong("111");
 		mockMvc.perform(
 				delete(BASE_URL+"/"+ user_id)
 				.characterEncoding("UTF-8")
 				.contentType(MediaTypes.HAL_JSON_VALUE)
 			)
-			.andDo(print())
 			;
 		
 	}

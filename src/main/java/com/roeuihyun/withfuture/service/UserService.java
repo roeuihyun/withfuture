@@ -30,6 +30,5 @@ public interface UserService {
 	UserEO putUser(HashMap<String, Object> param);
 
 	UserEO deleteUserById(HashMap<String, Object> param);
-	
 
 }
