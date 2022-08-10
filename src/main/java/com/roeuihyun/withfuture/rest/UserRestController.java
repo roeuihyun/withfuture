@@ -42,17 +42,9 @@ import com.roeuihyun.withfuture.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
-@Api("USER API")
-@ApiResponses( value = {
-        	@ApiResponse( code = 200 , message = "정상" ),
-            @ApiResponse( code = 400 , message = "잘못된접근" ),
-            @ApiResponse( code = 500 , message = "서버 에러")
-			}
-		)
+@Api(value = "사용자 API" , tags = {"사용자 API"} )
 @RestController
 @RequestMapping("/Users")
 @RequiredArgsConstructor
@@ -63,7 +55,7 @@ public class UserRestController {
 	private int defaultPageSize = 10;
 	
 	@ApiOperation(value = "USER 추가", notes = "USER 하나를 추가합니다.")
-	@PostMapping(value="", produces = MediaTypes.HAL_JSON_VALUE)
+	@PostMapping(produces = MediaTypes.HAL_JSON_VALUE)
 	@ResponseBody
 	public EntityModel<SuccessStatusResponse> insertUser(@RequestBody UserEO userEO) {
 		HashMap<String,Object> param = new HashMap<String,Object>();
@@ -119,7 +111,7 @@ public class UserRestController {
 	}
 	
 	@ApiOperation(value = "USER 수정", notes = "USER 하나를 수정합니다.")
-	@PutMapping(value="", produces = MediaTypes.HAL_JSON_VALUE)
+	@PutMapping(produces = MediaTypes.HAL_JSON_VALUE)
 	@ResponseBody
 	public EntityModel<SuccessStatusResponse> putUser( @RequestBody UserEO userEO) {
 		HashMap<String,Object> param = new HashMap<String,Object>();

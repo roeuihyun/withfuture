@@ -68,8 +68,13 @@ public class UserServiceImpl implements UserService{
 		if( !currentUser.isPresent() ) {
 			throw new BizException(BizStatusCode.USER_NOT_FOUND);		
 		}
-		userStore.save((UserEO)param.get("userEO"));
-		return userStore.findById((Long)param.get("user_id")).get();
+		UserEO updateParam = (UserEO)param.get("userEO");
+		UserEO updateReturn = currentUser.get();
+		updateReturn.setUser_id(updateParam.getUser_id());
+		updateReturn.setUser_name(updateParam.getUser_name());
+		updateReturn.setUser_email(updateParam.getUser_email());
+		updateReturn.setUser_addr(updateParam.getUser_addr());
+		return updateReturn;
 	}
 
 	@Override

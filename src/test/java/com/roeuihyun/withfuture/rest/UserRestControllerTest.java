@@ -157,10 +157,9 @@ public class UserRestControllerTest {
 	void deleteUserById() throws Exception {
 		
 		mockMvc.perform(
-				delete(BASE_URL)
+				delete(BASE_URL+"/"+ user_id)
 				.characterEncoding("UTF-8")
 				.contentType(MediaTypes.HAL_JSON_VALUE)
-				.content(objectMapper.writeValueAsString(user_id))
 			)
 			.andDo(print())
 			;
