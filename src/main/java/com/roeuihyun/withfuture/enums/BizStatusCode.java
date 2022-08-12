@@ -24,23 +24,23 @@ import lombok.RequiredArgsConstructor;
 public enum BizStatusCode implements StatusCode {
 
 	USER_NOT_FOUND(HttpStatus.OK, 20100, "USER 검색 실패"),
-	CMCD_NOT_FOUND(HttpStatus.OK, 20200, "공통코드 검색 실패"),
+	ORDER_NOT_FOUND(HttpStatus.OK, 20200, "주문 검색 실패"),
 	CMCD_INFO_NOT_FOUND(HttpStatus.OK, 20300, "공통코드 정보 검색 실패"),
 
 	USER_EXIST(HttpStatus.OK, 30100, "USER 입력 대상 존재"),
-	CMCD_EXIST(HttpStatus.OK, 30200, "공통코드 입력 대상 존재"),
+	ORDER_EXIST(HttpStatus.OK, 30200, "주문 입력 대상 존재"),
 	CMCD_INFO_EXIST(HttpStatus.OK, 30300, "공통코드 정보 입력 대상 존재"),
 
 	USER_INSERT_ERROR(HttpStatus.OK, 40100, "USER 입력 실패"),
-	CMCD_INSERT_ERROR(HttpStatus.OK, 40200, "공통코드 입력 실패"),
+	ORDER_INSERT_ERROR(HttpStatus.OK, 40200, "주문 입력 실패"),
 	CMCD_INFO_INSERT_ERROR(HttpStatus.OK, 40300, "공통코드 정보 입력 실패"),
 
 	USER_UPDATE_ERROR(HttpStatus.OK, 50100, "USER 수정 실패"),
-	CMCD_UPDATE_ERROR(HttpStatus.OK, 50200, "공통코드 수정 실패"),
+	ORDER_UPDATE_ERROR(HttpStatus.OK, 50200, "주문 수정 실패"),
 	CMCD_INFO_UPDATE_ERROR(HttpStatus.OK, 50300, "공통코드 정보 수정 실패"),
 
 	USER_DELETE_ERROR(HttpStatus.OK, 60100, "USER 삭제 실패"),
-	CMCD_DELETE_ERROR(HttpStatus.OK, 60200, "공통코드 삭제 실패"),
+	ORDER_DELETE_ERROR(HttpStatus.OK, 60200, "주문 삭제 실패"),
 	CMCD_INFO_DELETE_ERROR(HttpStatus.OK, 60300, "공통코드 정보 삭제 실패"),
 	;
 

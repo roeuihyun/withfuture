@@ -2,7 +2,7 @@
  *                        Copyright(c) 2022 WithFuture
  *
  * Project                : withfuture
- * Source File Name       : com.roeuihyun.withfuture.entityid.UserID
+ * Source File Name       : com.roeuihyun.withfuture.service.OrderService
  * Description            :
  * Author                 : 노의현
  * Version                : 1.0.0
@@ -12,19 +12,23 @@
  * Updated Contents       : 
  * 2022.08.01 최초 작성
  *===============================================================================*/
-package com.roeuihyun.withfuture.entityid;
+package com.roeuihyun.withfuture.service;
 
-import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.roeuihyun.withfuture.entity.OrderEO;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class UserID implements Serializable{
-	
-	private long user_id;
-	
+public interface OrderService {
+
+	OrderEO insertOrder(HashMap<String, Object> param);
+
+	List<OrderEO> getAllOrder();
+
+	OrderEO getOrderById(HashMap<String, Object> param);
+
+	OrderEO putOrder(HashMap<String, Object> param);
+
+	OrderEO deleteOrderById(HashMap<String, Object> param);
+
 }

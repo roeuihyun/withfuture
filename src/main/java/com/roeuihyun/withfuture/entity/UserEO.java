@@ -14,10 +14,15 @@
  *===============================================================================*/
 package com.roeuihyun.withfuture.entity;
 
+import java.util.ArrayList;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.PostPersist;
 import javax.persistence.Table;
@@ -50,7 +55,7 @@ public class UserEO implements AuditEntity{
 	@ApiModelProperty(value = "아이디", dataType = "long", required = true)  
 	private long user_id;
 	
-	@Column(name = "user_name",nullable = false) 
+	@Column(name = "user_name",nullable = true) 
 	@ApiModelProperty(value = "이름", dataType = "string", required = false)
 	private String user_name;
 	
@@ -80,5 +85,13 @@ public class UserEO implements AuditEntity{
     public void modifyIsNew(){
         this.isNew = false;
     }
+    
+//    @OneToMany(fetch=FetchType.EAGER)
+//    @JoinColumn(name="user_id")
+//    private ArrayList<OrderEO> orders = new ArrayList<OrderEO>(); 
+//    
+//    public void addOrderEO(OrderEO orderEO) {
+//    	this.orders.add(orderEO);
+//    }
 	
 }

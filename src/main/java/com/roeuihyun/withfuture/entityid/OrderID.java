@@ -2,7 +2,7 @@
  *                        Copyright(c) 2022 WithFuture
  *
  * Project                : withfuture
- * Source File Name       : com.roeuihyun.withfuture.entityid.UserID
+ * Source File Name       : com.roeuihyun.withfuture.entityid.OrderID
  * Description            :
  * Author                 : 노의현
  * Version                : 1.0.0
@@ -23,7 +23,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserID implements Serializable{
+public class OrderID implements Serializable{
+	
+	private long order_id;
 	
 	private long user_id;
 	

@@ -2,7 +2,7 @@
  *                        Copyright(c) 2022 WithFuture
  *
  * Project                : withfuture
- * Source File Name       : com.roeuihyun.withfuture.entityid.UserID
+ * Source File Name       : com.roeuihyun.withfuture.store.OrderStore
  * Description            :
  * Author                 : 노의현
  * Version                : 1.0.0
@@ -12,19 +12,16 @@
  * Updated Contents       : 
  * 2022.08.01 최초 작성
  *===============================================================================*/
-package com.roeuihyun.withfuture.entityid;
+package com.roeuihyun.withfuture.store;
 
-import java.io.Serializable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.roeuihyun.withfuture.entity.OrderEO;
+import com.roeuihyun.withfuture.entityid.OrderID;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class UserID implements Serializable{
-	
-	private long user_id;
+@Repository
+public interface OrderStore extends JpaRepository<OrderEO, OrderID>{
 	
 }
+
