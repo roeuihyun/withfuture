@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.roeuihyun.withfuture.entity.UserEO;
+import com.roeuihyun.withfuture.entityid.UserID;
 import com.roeuihyun.withfuture.enums.CommonStatusCode;
 import com.roeuihyun.withfuture.response.SuccessStatusResponse;
 import com.roeuihyun.withfuture.service.UserService;
@@ -60,6 +61,7 @@ public class UserRestController {
 	public EntityModel<SuccessStatusResponse> insertUser(@RequestBody UserEO userEO) {
 		HashMap<String,Object> param = new HashMap<String,Object>();
 		param.put("user_id", userEO.getUser_id());
+		param.put("userID", new UserID(userEO.getUser_id()) );
 		param.put("userEO", userEO);
 		@SuppressWarnings("deprecation")
 		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
@@ -97,6 +99,7 @@ public class UserRestController {
 	public EntityModel<SuccessStatusResponse> getUserById(@PathVariable Long user_id) {
 		HashMap<String,Object> param = new HashMap<String,Object>();
 		param.put("user_id", user_id);
+		param.put("userID", new UserID(user_id) );
 		@SuppressWarnings("deprecation")
 		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
 		        .biz_code(CommonStatusCode.OK.getBiz_code())
@@ -116,6 +119,7 @@ public class UserRestController {
 	public EntityModel<SuccessStatusResponse> putUser( @RequestBody UserEO userEO) {
 		HashMap<String,Object> param = new HashMap<String,Object>();
 		param.put("user_id", userEO.getUser_id());
+		param.put("userID", new UserID(userEO.getUser_id()) );
 		param.put("userEO", userEO);
 		@SuppressWarnings("deprecation")
 		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
@@ -136,6 +140,7 @@ public class UserRestController {
 	public EntityModel<SuccessStatusResponse> deleteUserById(@PathVariable Long user_id) {
 		HashMap<String,Object> param = new HashMap<String,Object>();
 		param.put("user_id", user_id);
+		param.put("userID", new UserID(user_id) );
 		@SuppressWarnings("deprecation")
 		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
 		        .biz_code(CommonStatusCode.OK.getBiz_code())

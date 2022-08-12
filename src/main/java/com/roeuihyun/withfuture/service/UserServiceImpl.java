@@ -23,6 +23,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.roeuihyun.withfuture.entity.UserEO;
+import com.roeuihyun.withfuture.entityid.UserID;
 import com.roeuihyun.withfuture.enums.BizStatusCode;
 import com.roeuihyun.withfuture.exception.BizException;
 import com.roeuihyun.withfuture.store.UserStore;
@@ -39,12 +40,12 @@ public class UserServiceImpl implements UserService{
 	@Override
 	@Transactional
 	public UserEO insertUser(HashMap<String, Object> param) {
-		Optional<UserEO> currentUser = userStore.findById((Long)param.get("user_id"));
+		Optional<UserEO> currentUser = userStore.findById( (UserID)param.get("userID") );
 		if( currentUser.isPresent() ) {
 			throw new BizException(BizStatusCode.USER_EXIST);
 		}
 		userStore.save((UserEO)param.get("userEO"));
-		return userStore.findById((Long)param.get("user_id")).get();
+		return userStore.findById( (UserID)param.get("userID") ).get();
 	}
 
 	@Override
@@ -54,7 +55,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public UserEO getUserById(HashMap<String, Object> param) {
-		Optional<UserEO> currentUser = userStore.findById((Long)param.get("user_id"));
+		Optional<UserEO> currentUser = userStore.findById( (UserID)param.get("userID") );
 		if( !currentUser.isPresent() ) {
 			throw new BizException(BizStatusCode.USER_NOT_FOUND);		
 		}
@@ -64,7 +65,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	@Transactional
 	public UserEO putUser(HashMap<String, Object> param) {
-		Optional<UserEO> currentUser = userStore.findById((Long)param.get("user_id"));
+		Optional<UserEO> currentUser = userStore.findById( (UserID)param.get("userID") );
 		if( !currentUser.isPresent() ) {
 			throw new BizException(BizStatusCode.USER_NOT_FOUND);		
 		}
@@ -80,11 +81,11 @@ public class UserServiceImpl implements UserService{
 	@Override
 	@Transactional
 	public UserEO deleteUserById(HashMap<String, Object> param) {
-		Optional<UserEO> currentUser = userStore.findById((Long)param.get("user_id"));
+		Optional<UserEO> currentUser = userStore.findById( (UserID)param.get("userID") );
 		if( !currentUser.isPresent() ) {
 			throw new BizException(BizStatusCode.USER_NOT_FOUND);		
 		}
-		userStore.deleteById((Long)param.get("user_id"));
+		userStore.deleteById( (UserID)param.get("userID") );
 		return currentUser.get();
 	}
 

@@ -18,9 +18,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.roeuihyun.withfuture.entity.UserEO;
+import com.roeuihyun.withfuture.entityid.UserID;
 
 @Repository
-public interface UserStore extends JpaRepository<UserEO, Long>{
+public interface UserStore extends JpaRepository<UserEO, UserID>{
 	
 }
 
