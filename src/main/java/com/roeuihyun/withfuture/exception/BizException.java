@@ -17,14 +17,17 @@ package com.roeuihyun.withfuture.exception;
 import com.roeuihyun.withfuture.enums.StatusCode;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 public class BizException extends RuntimeException {
 	
 	private static final long serialVersionUID = 1L;
 	private final StatusCode statusCode;
+	
+	public BizException ( StatusCode statusCode ) {
+		super(statusCode.getMessage());
+		this.statusCode = statusCode;
+	}
 	
 }
 

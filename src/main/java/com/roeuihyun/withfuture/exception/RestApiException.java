@@ -17,13 +17,16 @@ package com.roeuihyun.withfuture.exception;
 import com.roeuihyun.withfuture.enums.StatusCode;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 public class RestApiException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 	private final StatusCode statusCode;
+	
+	public RestApiException ( StatusCode statusCode ) {
+		super(statusCode.getMessage());
+		this.statusCode = statusCode;
+	}
 
 }
