@@ -63,8 +63,7 @@ public class UserRestController {
 		param.put("user_id", userEO.getUser_id());
 		param.put("userID", new UserID(userEO.getUser_id()) );
 		param.put("userEO", userEO);
-		@SuppressWarnings("deprecation")
-		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
+		EntityModel<SuccessStatusResponse> model = EntityModel.of(SuccessStatusResponse.builder()
 		        .biz_code(CommonStatusCode.OK.getBiz_code())
 		        .message(CommonStatusCode.OK.getMessage())
 		        .result(userService.insertUser(param))
@@ -83,8 +82,7 @@ public class UserRestController {
 			@ApiParam(value = "PagingSize", required = true, example = "10", defaultValue = "10")
 			@RequestParam int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
-		@SuppressWarnings("deprecation")
-		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
+		EntityModel<SuccessStatusResponse> model = EntityModel.of(SuccessStatusResponse.builder()
 		        .biz_code(CommonStatusCode.OK.getBiz_code())
 		        .message(CommonStatusCode.OK.getMessage())
 		        .result(PageInfo.of(userService.getAllUser()))
@@ -100,8 +98,7 @@ public class UserRestController {
 		HashMap<String,Object> param = new HashMap<String,Object>();
 		param.put("user_id", user_id);
 		param.put("userID", new UserID(user_id) );
-		@SuppressWarnings("deprecation")
-		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
+		EntityModel<SuccessStatusResponse> model = EntityModel.of(SuccessStatusResponse.builder()
 		        .biz_code(CommonStatusCode.OK.getBiz_code())
 		        .message(CommonStatusCode.OK.getMessage())
 		        .result(userService.getUserById(param))
@@ -121,8 +118,7 @@ public class UserRestController {
 		param.put("user_id", userEO.getUser_id());
 		param.put("userID", new UserID(userEO.getUser_id()) );
 		param.put("userEO", userEO);
-		@SuppressWarnings("deprecation")
-		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
+		EntityModel<SuccessStatusResponse> model = EntityModel.of(SuccessStatusResponse.builder()
 		        .biz_code(CommonStatusCode.OK.getBiz_code())
 		        .message(CommonStatusCode.OK.getMessage())
 		        .result(userService.putUser(param))
@@ -141,8 +137,7 @@ public class UserRestController {
 		HashMap<String,Object> param = new HashMap<String,Object>();
 		param.put("user_id", user_id);
 		param.put("userID", new UserID(user_id) );
-		@SuppressWarnings("deprecation")
-		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
+		EntityModel<SuccessStatusResponse> model = EntityModel.of(SuccessStatusResponse.builder()
 		        .biz_code(CommonStatusCode.OK.getBiz_code())
 		        .message(CommonStatusCode.OK.getMessage())
 		        .result(userService.deleteUserById(param))

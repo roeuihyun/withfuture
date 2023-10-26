@@ -64,8 +64,7 @@ public class OrderRestController {
 		param.put("user_id", orderEO.getUser_id());
 		param.put("orderID", new OrderID(orderEO.getOrder_id(), orderEO.getUser_id()) );
 		param.put("orderEO", orderEO);
-		@SuppressWarnings("deprecation")
-		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
+		EntityModel<SuccessStatusResponse> model = EntityModel.of(SuccessStatusResponse.builder()
 		        .biz_code(CommonStatusCode.OK.getBiz_code())
 		        .message(CommonStatusCode.OK.getMessage())
 		        .result(orderService.insertOrder(param))
@@ -84,8 +83,7 @@ public class OrderRestController {
 			@ApiParam(value = "PagingSize", required = true, example = "10", defaultValue = "10")
 			@RequestParam int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
-		@SuppressWarnings("deprecation")
-		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
+		EntityModel<SuccessStatusResponse> model = EntityModel.of(SuccessStatusResponse.builder()
 		        .biz_code(CommonStatusCode.OK.getBiz_code())
 		        .message(CommonStatusCode.OK.getMessage())
 		        .result(PageInfo.of(orderService.getAllOrder()))
@@ -101,8 +99,7 @@ public class OrderRestController {
 		HashMap<String,Object> param = new HashMap<String,Object>();
 		param.put("order_id", order_id);
 		param.put("orderID", new OrderID(order_id, user_id) );
-		@SuppressWarnings("deprecation")
-		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
+		EntityModel<SuccessStatusResponse> model = EntityModel.of(SuccessStatusResponse.builder()
 		        .biz_code(CommonStatusCode.OK.getBiz_code())
 		        .message(CommonStatusCode.OK.getMessage())
 		        .result(orderService.getOrderById(param))
@@ -123,8 +120,7 @@ public class OrderRestController {
 		param.put("user_id", orderEO.getUser_id());
 		param.put("orderID", new OrderID(orderEO.getOrder_id(), orderEO.getUser_id()) );
 		param.put("orderEO", orderEO);
-		@SuppressWarnings("deprecation")
-		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
+		EntityModel<SuccessStatusResponse> model = EntityModel.of(SuccessStatusResponse.builder()
 		        .biz_code(CommonStatusCode.OK.getBiz_code())
 		        .message(CommonStatusCode.OK.getMessage())
 		        .result(orderService.putOrder(param))
@@ -143,8 +139,7 @@ public class OrderRestController {
 		HashMap<String,Object> param = new HashMap<String,Object>();
 		param.put("order_id", order_id);
 		param.put("orderID", new OrderID(order_id, user_id) );
-		@SuppressWarnings("deprecation")
-		EntityModel<SuccessStatusResponse> model = new EntityModel<SuccessStatusResponse>(SuccessStatusResponse.builder()
+		EntityModel<SuccessStatusResponse> model = EntityModel.of(SuccessStatusResponse.builder()
 		        .biz_code(CommonStatusCode.OK.getBiz_code())
 		        .message(CommonStatusCode.OK.getMessage())
 		        .result(orderService.deleteOrderById(param))

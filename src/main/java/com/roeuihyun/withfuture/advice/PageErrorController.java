@@ -38,7 +38,6 @@ public class PageErrorController implements ErrorController{
         
     }
 
-	@Override
 	public String getErrorPath() {
 		// TODO Auto-generated method stub
 		return null;
