@@ -126,22 +126,18 @@
 	</dependencies>
 
 	<build>
-	
+	    <!-- <resources>
+	        <resource>
+	            <directory>src/main/resources</directory>
+	            <includes>
+	                <include>META-INF/**</include>
+	            </includes>
+	        </resource>
+	        추가적인 리소스 설정
+	    </resources> -->
 		<finalName>withfuture</finalName>
 		
 	    <plugins>
-	        <!-- Spring Boot Maven Plugin -->
-	        <plugin>
-	            <groupId>org.springframework.boot</groupId>
-	            <artifactId>spring-boot-maven-plugin</artifactId>
-	            <configuration>
-	                <libs>
-	                    <!-- Java 8에서는 rt.jar이 존재하지 않으므로 아래 라인은 제거 -->
-	                    <lib>${java.home}/lib/rt.jar</lib>
-	                </libs>
-	                <!-- 나머지 ProGuard 설정... -->
-	            </configuration>
-	        </plugin>
 	
 	        <!-- ProGuard Maven Plugin -->
 	        <plugin>
@@ -158,8 +154,9 @@
 	            </executions>
 	            <configuration>
                     <options>
-                    	<option>-keepdirectories META-INF</option>
-                    	<!-- <option>-keepdirectories META-INF/com/roeuihyun/withfuture</option> -->
+                        <option>-ignorewarnings</option>
+				        <option>-dontshrink</option>
+				        <option>-dontoptimize</option>
                     	<option>-keep public class * extends java.applet.Applet { *; }</option>
                     	<option>-keep class org.springframework.** { *; }</option>
 						<option>-keep class com.github.pagehelper.** { *; }</option>
@@ -169,20 +166,18 @@
 						<option>-keep class com.google.guava.** { *; }</option>
 						<option>-keep class io.springfox.** { *; }</option>
 						<option>-keep class org.junit.** { *; }</option>
-						<!-- <option>-keep class org.springframework.boot.** { *; }</option> -->
-                    	<!-- <option>-keep class com.roeuihyun.withfuture.** { *; }</option> -->
-                    	<!-- <option>-keep BOOT-INF/lib/*.jar</option> -->
-                    	<!-- <option>-keepdirectories META-INF/**</option> -->
-                    	<option>-keepdirectories META-INF/**</option>
-				        <option>-dontcompress BOOT-INF/lib/*.jar</option>
-                        <!-- <option>-allowaccessmodification</option> -->
-                        <option>-ignorewarnings</option>
-				        <option>-dontshrink</option>
-				        <option>-dontoptimize</option>
+					    <option><![CDATA[-keep,includedescriptorclasses class com.roeuihyun.withfuture.** {
+					        <methods>;
+					    }]]></option>
+					    <!-- 기존 설정들 -->
+					    <option>-printconfiguration ${project.build.directory}/proguard_config.txt</option>
+						<!-- <option>-injars '${project.build.directory}/${project.build.finalName}.jar'</option>
+						<option>-outjars '${project.build.directory}/${project.build.finalName}-small.jar'</option> -->
+
                     </options>
                     <obfuscate>true</obfuscate>
-                    <injar>${project.build.finalName}.jar</injar>
-                    <outjar>${project.build.finalName}-small.jar</outjar>
+					<injar>${project.build.finalName}.jar</injar>
+					<outjar>${project.build.finalName}-small.jar</outjar>
                     <outputDirectory>${project.build.directory}</outputDirectory>
                     <proguardInclude>${basedir}/proguard.conf</proguardInclude>
                     <libs>
@@ -191,6 +186,30 @@
                     </libs>
 	            </configuration>
 	        </plugin>
+	        
+	        <!-- Maven Install Plugin -->
+	        <plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-install-plugin</artifactId>
+	            <version>3.0.0-M1</version>
+	            <executions>
+	                <execution>
+	                    <id>install-withfuture-small</id>
+	                    <phase>install</phase>
+	                    <goals>
+	                        <goal>install-file</goal>
+	                    </goals>
+	                    <configuration>
+	                        <file>${project.build.directory}/${project.build.finalName}-small.jar</file>
+	                        <groupId>com.roeuihyun</groupId>
+	                        <artifactId>withfuture</artifactId>
+	                        <version>${project.version}</version>
+	                        <packaging>jar</packaging>
+	                    </configuration>
+	                </execution>
+	            </executions>
+	        </plugin>
+	        
 	    </plugins>
 	    
 	</build>
